@@ -1,0 +1,1 @@
+function e(e){return new Worker(`/rot/assets/worker-D9W23nJ-.js`,{name:e?.name})}export{e as default};

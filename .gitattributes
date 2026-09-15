@@ -1,0 +1,2 @@
+# Preserve generated bundles byte-for-byte, including embedded shader strings.
+rot/** -text -whitespace linguist-generated=true
