@@ -2,6 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCGHR8JG5T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WCGHR8JG5T');
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Jianing Wang — Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms. Experience at Uber and Yahoo; independent AI development.">
   <meta name="theme-color" content="#f5f3eb">
@@ -85,10 +93,13 @@
           <h3 id="uber-title">Uber Technologies</h3>
           <p class="role">Storage, Search &amp; Data</p>
           <p>Owned initiatives across Uber’s Presto-based distributed SQL and data query platform: routing, quotas, caching, notifications, connector and version upgrades, upstream engine merges, and on-call operations.</p>
+          <p class="secondary"><a href="https://www.ibm.com/think/news/uber-presto">Further reading: Uber’s Presto platform — IBM</a></p>
           <ul class="details">
             <li><strong>Connector Cloud Routing.</strong> Led work reducing network load by about 10%, supporting an estimated <strong>~$2M in annual infrastructure savings</strong>.</li>
             <li><strong>User Quota.</strong> Designed quota management using historical workload patterns and service tiers to improve fairness across shared clusters.</li>
-            <li><strong>Local SSD Cache.</strong> Led Alluxio and targeted Parquet metadata/footer caching work, avoiding <strong>~20 PB of remote reads per month</strong> at an initial ~15% average cache hit rate.</li>
+            <li><strong>Local SSD Cache.</strong> Led Alluxio and targeted Parquet metadata/footer caching work, avoiding <strong>~20 PB of remote reads per month</strong> at an initial ~15% average cache hit rate.
+              <p class="secondary"><a href="https://prestodb.io/blog/2025/08/08/unlocking-petabyte-scale-performance-ubers-journey-with-alluxio-distributed-cache/">Further reading: Uber’s Alluxio distributed cache — Presto</a></p>
+            </li>
           </ul>
         </article>
         <article aria-labelledby="freight-title">
@@ -96,6 +107,7 @@
           <p class="role">Tracking Platform</p>
           <p>Built a freight tracking intelligence platform spanning data ingestion, load matching, ETA prediction, GPS processing, and tracking algorithms.</p>
           <p>Project Lasso achieved an approximately <strong>92% tracking rate</strong>, among the highest reported across major freight tracking platforms.</p>
+          <p class="secondary"><a href="https://www.uberfreight.com/en-US/blog/estimating-shipment-arrival-ai">Further reading: Project Lasso and shipment arrival predictions — Uber Freight</a></p>
         </article>
         <article aria-labelledby="yahoo-title">
           <h3 id="yahoo-title">Yahoo</h3>
