@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCGHR8JG5T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WCGHR8JG5T');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="AI-Assisted Laboratory Image Analysis by Jianing Wang: computer vision, image processing, AI-assisted interpretation, and case management for laboratory workflows.">
+  <meta name="theme-color" content="#f5f5f2">
+  <title>AI-Assisted Laboratory Image Analysis — Jianing Wang</title>
+  <style>
+    :root {
+      --accent: #3c5043;
+      --ink: #252927;
+      --line: #d1d4d0;
+      --muted: #626864;
+      --page: #f5f5f2;
+      --surface: #eceeea;
+      font-family: system-ui, sans-serif;
+      font-size: 12px;
+      color: var(--ink);
+      background: var(--page);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    section[id] { scroll-margin-top: 24px; }
+    main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 16px; font-weight: 650; letter-spacing: -.03em; }
+    .intro { padding: 36px 0 38px; max-width: 760px; }
+    .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.4rem, 5vw, 4.2rem); line-height: 1.06; letter-spacing: -.055em; margin: 8px 0 12px; font-weight: 550; }
+    .positioning { font-size: clamp(1.15rem, 1.8vw, 1.3rem); line-height: 1.5; max-width: 680px; }
+    .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 640px; }
+    article { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 32px); }
+    .project-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+    .tag { border: 1px solid var(--line); border-radius: 30px; padding: 6px 12px; font-size: .75rem; white-space: nowrap; }
+    h2 { font-size: clamp(1.8rem, 3.5vw, 2.75rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
+    h3 { font-size: clamp(1.25rem, 2.2vw, 1.55rem); margin: 0 0 5px; letter-spacing: -.025em; font-weight: 600; }
+    article p { color: var(--muted); line-height: 1.75; }
+    article p:last-child { margin-bottom: 0; }
+    .section { margin-top: 40px; }
+    .stack { display: grid; gap: 14px; }
+    .role { margin-top: 0; font-size: .95rem; }
+    .details { padding-left: 20px; margin-bottom: 0; color: var(--muted); line-height: 1.75; }
+    .details li + li { margin-top: 12px; }
+    strong { color: var(--ink); font-weight: 650; }
+    .technical-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 0; }
+    .technical-grid > div { border-top: 1px solid var(--line); padding-top: 14px; }
+    dt { font-weight: 650; }
+    dd { margin: 6px 0 0; color: var(--muted); line-height: 1.75; }
+    .narrative { max-width: 720px; font-size: 1rem; color: var(--muted); line-height: 1.8; }
+    .project-title { font-size: clamp(1.8rem, 3.5vw, 2.75rem); margin-top: 16px; letter-spacing: -.04em; font-weight: 550; }
+    .project-copy { max-width: 560px; }
+    .project-note { font-size: .85rem; }
+    #projects > article + article { margin-top: 20px; }
+    .project-preview { display: block; margin-top: 24px; }
+    .project-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+    a { color: inherit; text-underline-offset: 4px; }
+    .button { display: inline-flex; gap: 18px; align-items: center; background: var(--accent); color: #fff; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .button:hover { background: var(--ink); }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .secondary { font-size: .9rem; }
+    .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px 16px; background: var(--surface); transform: translateY(-200%); }
+    .skip-link:focus { transform: translateY(0); }
+    footer { margin-top: 30px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+    @media (max-width: 600px) { .technical-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { main { padding-top: 20px; } .intro { padding: 26px 0 30px; } .project-top { align-items: flex-start; } .section { margin-top: 34px; } }
+
+    .showcase-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+    .showcase-nav a { font-size: .9rem; font-weight: 400; letter-spacing: normal; }
+    .showcase-intro { padding-bottom: 20px; }
+    .showcase-section { margin-top: 32px; }
+    .showcase-copy { max-width: 720px; color: var(--muted); line-height: 1.8; }
+    figure { margin: 16px 0 0; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+    figcaption { color: var(--muted); font-size: .85rem; line-height: 1.6; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content">
+    <header class="showcase-nav"><span>AI-Assisted Laboratory Image Analysis</span><a href="/#projects">← All projects</a></header>
+    <section class="intro showcase-intro" aria-labelledby="lab-title">
+      <p class="eyebrow">Project showcase / Registered software</p>
+      <h1 id="lab-title">AI-Assisted Laboratory Image Analysis</h1>
+      <p class="positioning">Computer vision and AI-assisted interpretation for laboratory and diagnostic imaging workflows.</p>
+      <p class="intro-copy">AI-Assisted Laboratory Image Analysis System is a medical imaging and analysis platform designed to process images and video generated in laboratory and diagnostic workflows. The system uses computer vision and image-processing techniques to identify, quantify, and extract relevant visual features from laboratory images, including spot-based assay results and other diagnostic imagery. Extracted image features and quantitative results can then be analyzed by AI models to provide preliminary classification, interpretation, and statistical summaries for further review. The platform also provides supporting application functionality, including user authentication, result archiving, data management, and integration with local files and imaging workflows.</p>
+      <p class="project-note">China National Software Copyright Registry <strong>#12137438</strong></p>
+      <nav class="actions" aria-label="Showcase sections"><a href="#analysis">Image analysis</a><a href="#workflow">Case workflow</a></nav>
+    </section>
+    <section class="showcase-section" id="analysis" aria-labelledby="analysis-title">
+      <h2 id="analysis-title">From image to structured result</h2>
+      <p class="showcase-copy">The analysis workspace brings image import, processing, AI analysis, result review, and export into one interface. Operators can inspect a processed assay image, review detected spots, adjust the display, and retain the quantitative result.</p>
+      <figure>
+        <a href="images/demo01.png" aria-label="Open full-size image: laboratory image analysis workspace showing a processed assay image.">
+          <img src="images/demo01.png" width="833" height="504" loading="lazy" decoding="async" alt="Laboratory image analysis interface showing a processed assay image with detected spots and image adjustment controls.">
+        </a>
+        <figcaption>Processed assay image with analysis and display controls. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="workflow" aria-labelledby="workflow-title">
+      <h2 id="workflow-title">Case-centered review</h2>
+      <p class="showcase-copy">The case workspace keeps sample type, description, status, image previews, result summaries, and supporting charts together. Search and date filters help operators return to completed analyses while preserving the associated source images and results.</p>
+      <figure>
+        <a href="images/demo02.png" aria-label="Open full-size image: laboratory case workspace showing processed samples and result summaries.">
+          <img src="images/demo02.png" width="1248" height="412" loading="lazy" decoding="async" alt="Laboratory case management interface showing processed samples, result summaries, image previews, and a quantitative chart.">
+        </a>
+        <figcaption>Archived cases keep processed images and result context available for later review. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <footer><a href="/#projects">← Back to projects</a></footer>
+  </main>
+</body>
+</html>
