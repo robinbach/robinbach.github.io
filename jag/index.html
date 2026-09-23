@@ -11,9 +11,9 @@
     gtag('config', 'G-WCGHR8JG5T');
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="JAG by Jianing Wang: a personalized job-search workbench with explicit retrieval, inspectable checkpoints, and evidence-based LLM ranking.">
+  <meta name="description" content="Career Intelligence Workbench by Jianing Wang: a transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.">
   <meta name="theme-color" content="#f5f5f2">
-  <title>JAG — Jianing Wang</title>
+  <title>Career Intelligence Workbench — Jianing Wang</title>
   <style>
     :root {
       --accent: #3c5043;
@@ -86,20 +86,20 @@
 <body>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <main id="main-content">
-    <header class="showcase-nav"><span>JAG</span><a href="/#projects">← All projects</a></header>
+    <header class="showcase-nav"><span>Career Intelligence Workbench</span><a href="/#projects">← All projects</a></header>
     <section class="intro showcase-intro" aria-labelledby="jag-title">
       <p class="eyebrow">Project showcase / Closed-source proof of concept</p>
-      <h1 id="jag-title">JAG</h1>
-      <p class="positioning">A transparent, personalized job-search workbench.</p>
-      <p class="intro-copy">Which current engineering openings are worth a particular candidate’s attention? JAG combines company-scoped job collection, deterministic eligibility rules, and structured LLM evaluation to turn a noisy inventory into a manageable shortlist.</p>
+      <h1 id="jag-title">Career Intelligence Workbench</h1>
+      <p class="positioning">A transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.</p>
+      <p class="intro-copy">Which current engineering openings are worth a particular candidate’s attention? The workbench combines company-scoped job collection, deterministic eligibility rules, and structured LLM evaluation to turn a noisy inventory into a manageable shortlist.</p>
       <nav class="actions" aria-label="Showcase sections"><a href="#retrieval">Retrieval</a><a href="#pipeline">Pipeline</a><a href="#ranking">Ranking</a></nav>
     </section>
     <section class="showcase-section" id="retrieval" aria-labelledby="retrieval-title">
       <h2 id="retrieval-title">Deliberate retrieval</h2>
       <p class="showcase-copy">The operator chooses which companies to fetch. Source readiness, selected companies, snapshot status, and pending ranking work stay visible in the console. Fetching, filtering, and ranking are separate actions, so a prompt experiment never triggers an accidental source refresh.</p>
       <figure>
-        <a href="images/01-main-console.jpg" aria-label="Open full-size image: JAG main console showing source readiness and explicit retrieval controls.">
-          <img src="images/01-main-console.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="JAG main console showing source readiness and explicit retrieval controls.">
+        <a href="images/01-main-console.jpg" aria-label="Open full-size image: Career Intelligence Workbench main console showing source readiness and explicit retrieval controls.">
+          <img src="images/01-main-console.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Career Intelligence Workbench main console showing source readiness and explicit retrieval controls.">
         </a>
         <figcaption>The main console separates retrieval from filtering and ranking. Select the image to view it at full size.</figcaption>
       </figure>
@@ -123,7 +123,7 @@
     </section>
     <section class="showcase-section" id="ranking" aria-labelledby="ranking-title">
       <h2 id="ranking-title">Ranking with explicit evidence</h2>
-      <p class="showcase-copy">Deterministic rules first exclude unsuitable roles based on freshness, location, role family, and missing essential details. The model then evaluates role, domain, skill, and level fit against a canonical candidate profile. JAG combines those dimensions with fixed weights and applies guards for strong location or experience contradictions.</p>
+      <p class="showcase-copy">Deterministic rules first exclude unsuitable roles based on freshness, location, role family, and missing essential details. The model then evaluates role, domain, skill, and level fit against a canonical candidate profile. The workbench combines those dimensions with fixed weights and applies guards for strong location or experience contradictions.</p>
       <p class="showcase-copy">The report exposes score dimensions and positive or negative factors alongside company and date filters, sorting, and official posting links. Applied, Not interested, and No longer valid actions archive a job while retaining its evaluation. Archived jobs are excluded from future ranking.</p>
       <figure>
         <a href="images/04-ranked-report.jpg" aria-label="Open full-size image: Ranked job report with filters, fit dimensions, evidence factors, and review actions.">
@@ -134,12 +134,12 @@
     </section>
     <section class="showcase-section" aria-labelledby="design-title">
       <h2 id="design-title">Engineering choices</h2>
-      <article aria-label="JAG implementation highlights">
+      <article aria-label="Career Intelligence Workbench implementation highlights">
         <ul class="details">
           <li><strong>Visible boundaries.</strong> Source retrieval, eligibility, model evaluation, and review remain independently inspectable.</li>
           <li><strong>Incremental model work.</strong> Reuse rankings unless re-ranking is requested, avoiding repeated spending on decisions already made.</li>
           <li><strong>Local-first state.</strong> Source data, rankings, and review actions remain inspectable files.</li>
-          <li><strong>Human decisions.</strong> JAG supports discovery and review; it does not log into career sites or submit applications.</li>
+          <li><strong>Human decisions.</strong> The workbench supports discovery and review; it does not log into career sites or submit applications.</li>
         </ul>
       </article>
       <p class="project-note showcase-copy">Screenshots show a real local snapshot. Counts and job examples change as sources are refreshed and decisions are recorded.</p>
