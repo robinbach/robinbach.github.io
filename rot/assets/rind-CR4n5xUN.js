@@ -1,0 +1,1 @@
+import{o as e,t}from"./mount-DuSgCv6R.js";import{r as n}from"./rind-lab-B1wPH1cf.js";t((0,e().jsx)(n,{}));
