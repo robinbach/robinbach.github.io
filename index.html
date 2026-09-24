@@ -23,7 +23,7 @@
       --page: #f5f5f2;
       --surface: #eceeea;
       font-family: system-ui, sans-serif;
-      font-size: 12px;
+      font-size: 14px;
       color: var(--ink);
       background: var(--page);
     }
@@ -33,8 +33,8 @@
     main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
     .intro { padding: 30px 0 38px; max-width: 760px; }
     .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
-    h1 { font-size: clamp(2.4rem, 4vw, 3.15rem); line-height: 1.08; letter-spacing: -.045em; margin: 8px 0 12px; font-weight: 550; }
-    .positioning { font-size: clamp(1.15rem, 1.8vw, 1.3rem); line-height: 1.55; max-width: 680px; }
+    h1 { font-size: clamp(2.05rem, 4vw, 2.7rem); line-height: 1.08; letter-spacing: -.045em; margin: 8px 0 12px; font-weight: 550; }
+    .positioning { font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.55; max-width: 680px; }
     .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 640px; }
     .profile-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
     .profile-link { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 600; }
@@ -43,8 +43,9 @@
     article { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 32px); }
     .project-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
     .tag { border: 1px solid var(--line); border-radius: 30px; padding: 5px 10px; font-size: .75rem; white-space: nowrap; }
-    h2 { font-size: clamp(1.8rem, 3.5vw, 2.75rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
-    h3 { font-size: clamp(1.25rem, 2.2vw, 1.55rem); margin: 0 0 5px; letter-spacing: -.025em; font-weight: 600; }
+    h2 { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
+    h3 { font-size: clamp(1.07rem, 2.2vw, 1.33rem); margin: 0 0 5px; letter-spacing: -.025em; font-weight: 600; }
+    .compact-heading { font-size: clamp(1.07rem, 2.2vw, 1.33rem); letter-spacing: -.025em; font-weight: 600; }
     article p { color: var(--muted); line-height: 1.75; }
     article p:last-child { margin-bottom: 0; }
     .section { margin-top: 40px; }
@@ -58,7 +59,7 @@
     dt { font-weight: 650; }
     dd { margin: 6px 0 0; color: var(--muted); line-height: 1.75; }
     .narrative { max-width: 720px; font-size: 1rem; color: var(--muted); line-height: 1.8; }
-    .project-title { font-size: clamp(1.8rem, 3.5vw, 2.75rem); margin: 0; letter-spacing: -.04em; font-weight: 550; }
+    .project-title { font-size: clamp(1.07rem, 2.2vw, 1.33rem); margin: 0; letter-spacing: -.025em; font-weight: 600; }
     .project-copy { max-width: 560px; }
     .project-note { font-size: .85rem; }
     #projects > article + article { margin-top: 14px; }
@@ -83,7 +84,7 @@
   <main id="main-content">
     <section class="intro" aria-labelledby="intro-title">
       <p class="eyebrow">Backend / Infrastructure / AI Systems</p>
-      <h1 id="intro-title">Jianing Wang</h1>
+      <h2 id="intro-title">Jianing Wang</h2>
       <p class="positioning">Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms.</p>
       <p class="intro-copy">I build reliable systems at scale. My work spans infrastructure and platforms at Uber and Yahoo, and recent independent work on AI applications and agents.</p>
       <div class="profile-links" aria-label="Professional profiles">
@@ -137,7 +138,7 @@
     </section>
 
     <section class="section" aria-labelledby="technical-title">
-      <h2 id="technical-title">Technical areas</h2>
+      <h2 class="compact-heading" id="technical-title">Technical areas</h2>
       <dl class="technical-grid">
         <div><dt>Distributed Systems &amp; Data</dt><dd>Presto, Hadoop/HDFS, Kafka, Redis, Alluxio</dd></div>
         <div><dt>Infrastructure</dt><dd>Docker, Kubernetes, AWS, Linux</dd></div>
@@ -147,7 +148,7 @@
     </section>
 
     <section class="section" id="about" aria-labelledby="about-title">
-      <h2 id="about-title">A through line</h2>
+      <h2 class="compact-heading" id="about-title">A through line</h2>
       <p class="narrative">My work has moved from platform and security foundations at Yahoo to user-facing, ML-driven systems at Uber Freight, then large-scale data infrastructure at Uber. Today, I bring that experience to AI-native systems and agents. The consistent thread is an interest in technically deep systems that make a practical difference for the people using them.</p>
     </section>
 
