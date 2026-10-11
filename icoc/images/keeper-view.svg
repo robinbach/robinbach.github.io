@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 380" width="960" height="380" role="img" aria-labelledby="t d" font-family="system-ui, sans-serif">
+  <title id="t">What the engine holds and what the keeper model is shown</title>
+  <desc id="d">The engine holds the whole script and the game state. Each turn it builds a filtered view for the keeper model: public setting, clues already found, and only the discovery conditions of clues the player can reach right now.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#626864"/></marker>
+  </defs>
+  <rect width="960" height="380" fill="#f5f5f2"/>
+  <g font-size="11" fill="#626864" font-family="ui-monospace, monospace" letter-spacing="1.5">
+    <text x="20" y="30">THE ENGINE HOLDS</text>
+    <text x="372" y="30">FILTER, EVERY TURN</text>
+    <text x="620" y="30">THE KEEPER MODEL SEES</text>
+  </g>
+  <g stroke="#d1d4d0" stroke-width="1">
+    <rect x="20" y="45" width="300" height="315" rx="12" fill="#3c5043" stroke="#3c5043"/>
+    <rect x="372" y="45" width="196" height="315" rx="12" fill="#f5f5f2" stroke-dasharray="6 5" stroke="#626864"/>
+    <rect x="620" y="45" width="320" height="215" rx="12" fill="#eceeea"/>
+    <rect x="620" y="276" width="320" height="84" rx="12" fill="#f5f5f2" stroke-dasharray="6 5" stroke="#626864"/>
+  </g>
+  <g stroke="#626864" stroke-width="1.4" fill="none" marker-end="url(#a)">
+    <path d="M320 150H368"/>
+    <path d="M568 150H616"/>
+  </g>
+  <g font-size="14" font-weight="650" fill="#fff">
+    <text x="38" y="76">The script</text>
+    <text x="38" y="208">The state of this playthrough</text>
+  </g>
+  <g font-size="12" fill="#e4e8e3">
+    <text x="38" y="98">Every clue: its text, the condition for</text>
+    <text x="38" y="114">finding it, what must be known first,</text>
+    <text x="38" y="130">what it changes once found</text>
+    <text x="38" y="152">Charges, the evidence each one needs,</text>
+    <text x="38" y="168">and how the case can end</text>
+    <text x="38" y="230">Player location and rooms visited</text>
+    <text x="38" y="250">Where each character is now</text>
+    <text x="38" y="270">Where each item is, what is carried</text>
+    <text x="38" y="290">Facts that changed (a door now open)</text>
+    <text x="38" y="310">Clues found, and in which turn</text>
+    <text x="38" y="330">Evidence already shown, per charge</text>
+  </g>
+  <g font-size="12.5" fill="#252927">
+    <text x="388" y="78" font-weight="650">A clue is listed only if</text>
+    <text x="388" y="104">it is not found yet</text>
+    <text x="388" y="128">its prerequisites are known</text>
+    <text x="388" y="152">its place is where the</text>
+    <text x="388" y="168">player stands</text>
+    <text x="388" y="192">its character is present</text>
+    <text x="388" y="216">the pre-check does not</text>
+    <text x="388" y="232">rule it out for this line</text>
+  </g>
+  <g font-size="12" fill="#626864">
+    <text x="388" y="268">Tools appear the same way:</text>
+    <text x="388" y="284">no accusation tool unless</text>
+    <text x="388" y="300">the line reads as one</text>
+  </g>
+  <g font-size="12.5" fill="#252927">
+    <text x="638" y="76">Public setting and the house rules</text>
+    <text x="638" y="100">Clues already found, in full</text>
+    <text x="638" y="124">Reachable clues: the condition only</text>
+    <text x="638" y="148">Now: who and what is here, what changed</text>
+    <text x="638" y="172">Progress so far, one line per older turn</text>
+    <text x="638" y="196">Older turns recalled by similarity</text>
+    <text x="638" y="220">Recent conversation in full</text>
+    <text x="638" y="244">This turn's decision: moved, stayed, unclear</text>
+  </g>
+  <g font-size="12.5" fill="#626864">
+    <text x="638" y="302" font-weight="650" fill="#252927">Never sent</text>
+    <text x="638" y="324">Text of clues not yet found</text>
+    <text x="638" y="344">Anything behind an unmet prerequisite</text>
+  </g>
+</svg>

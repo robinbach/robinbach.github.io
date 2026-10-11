@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCGHR8JG5T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WCGHR8JG5T');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Narrative Memory Engine by Jianing Wang: a managed-memory interactive narrative system with persistent story state, controlled context, and deterministic rules.">
+  <meta name="theme-color" content="#f5f5f2">
+  <title>Narrative Memory Engine — Jianing Wang</title>
+  <style>
+    :root {
+      --accent: #3c5043;
+      --ink: #252927;
+      --line: #d1d4d0;
+      --muted: #626864;
+      --page: #f5f5f2;
+      --surface: #eceeea;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--page);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    section[id] { scroll-margin-top: 24px; }
+    main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 16px; font-weight: 650; letter-spacing: -.03em; }
+    .intro { padding: 36px 0 38px; max-width: 760px; }
+    .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.05rem, 5vw, 3.6rem); line-height: 1.06; letter-spacing: -.055em; margin: 8px 0 12px; font-weight: 550; }
+    .positioning { font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.5; max-width: 680px; }
+    .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 640px; }
+    article { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 32px); }
+    h2 { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
+    article p { color: var(--muted); line-height: 1.75; }
+    article p:last-child { margin-bottom: 0; }
+    .details { padding-left: 20px; margin-bottom: 0; color: var(--muted); line-height: 1.75; }
+    .details li + li { margin-top: 12px; }
+    strong { color: var(--ink); font-weight: 650; }
+    .project-note { font-size: .85rem; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+    a { color: inherit; text-underline-offset: 4px; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px 16px; background: var(--surface); transform: translateY(-200%); }
+    .skip-link:focus { transform: translateY(0); }
+    footer { margin-top: 30px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+    @media (max-width: 480px) { main { padding-top: 20px; } .intro { padding: 26px 0 30px; } }
+
+    .showcase-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+    .showcase-nav a { font-size: .9rem; font-weight: 400; letter-spacing: normal; }
+    .showcase-intro { padding-bottom: 20px; }
+    .showcase-section { margin-top: 32px; }
+    .showcase-copy { max-width: 720px; color: var(--muted); line-height: 1.8; }
+    figure { margin: 16px 0 0; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+    figcaption { color: var(--muted); font-size: .85rem; line-height: 1.6; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content">
+    <header class="showcase-nav"><span>Narrative Memory Engine</span><a href="/#projects">← All projects</a></header>
+    <section class="intro showcase-intro" aria-labelledby="narrative-memory-title">
+      <p class="eyebrow">Project showcase / Playable prototype</p>
+      <h1 id="narrative-memory-title">Narrative Memory Engine</h1>
+      <p class="positioning">A managed-memory interactive narrative system where a language model handles prose while an engine maintains story state, controlled context, and deterministic rules.</p>
+      <p class="intro-copy">The player types what their investigator says or does. A model plays the keeper: it describes the scene and speaks for the people in the house. What it cannot do is leak the mystery or lose track of the world, because it is never shown the parts of the script the player has not earned, and everything that must stay consistent is recorded by the engine and handed back to it each turn.</p>
+      <nav class="actions" aria-label="Showcase sections"><a href="#play">Play</a><a href="#turn">One turn</a><a href="#state">State</a><a href="#authoring">Authoring</a></nav>
+    </section>
+    <section class="showcase-section" id="play" aria-labelledby="play-title">
+      <h2 id="play-title">Free text in, a tracked investigation out</h2>
+      <p class="showcase-copy">There are no menus or verbs to pick. The player writes a line, and the keeper answers in prose. Beside the story, the case notes show what the engine currently holds for this playthrough: the room the player is in, who is present, a map that fills in as rooms are visited, carried items, and the clues found so far.</p>
+      <figure>
+        <a href="images/01-investigation.jpg" aria-label="Open full-size image: Narrative Memory Engine demo with narration on the left and persistent story state on the right.">
+          <img src="images/01-investigation.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="Narrative Memory Engine demo with narration and a newly found clue on the left, and the current scene, map, investigator, and carried items on the right.">
+        </a>
+        <figcaption>Turn four of the demo case. The clue chip under the narration and the panel on the right come from engine state, not from the model's text. Select the image to view it at full size.</figcaption>
+      </figure>
+      <p class="showcase-copy">Each case opens with a fixed prologue in the keeper's voice: where this is, who you are, how to play, and the promises this story makes, such as that nothing here will kill you and that nobody disappears without a reason. The same promises are given to the model, which has to run the game by them.</p>
+      <figure>
+        <a href="images/02-prologue.jpg" aria-label="Open full-size image: the prologue of the demo case, introducing the setting before play begins.">
+          <img src="images/02-prologue.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="The prologue of the demo case, with the keeper introducing the town and the old house before play begins.">
+        </a>
+        <figcaption>The prologue is authored text, so every player starts from the same footing. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="turn" aria-labelledby="turn-title">
+      <h2 id="turn-title">One turn, three kinds of model call</h2>
+      <p class="showcase-copy">A turn is a short pipeline. Before the keeper writes anything, a decision model (TypeSafe Jev) answers closed questions about the player's line: is the player going to another room, which reachable clues could this action uncover, is this an accusation. It returns a choice and a probability, not prose, and it runs alongside memory retrieval. The engine applies a move only above a confidence threshold, notes what the player would notice on arrival, and then builds the keeper's view from current state.</p>
+      <figure>
+        <a href="images/turn-pipeline.svg" aria-label="Open full-size diagram: the pipeline for one turn, from the player's line to updated engine state.">
+          <img src="images/turn-pipeline.svg" width="960" height="400" loading="lazy" decoding="async" alt="Diagram of one turn: player line, decisions and memory retrieval, engine, keeper model, reply, then a recorder model that feeds validated changes back into engine state.">
+        </a>
+        <figcaption>Decisions come first, narration second, bookkeeping last. Dark boxes are engine code; the others are model calls or text. Select the diagram to view it at full size.</figcaption>
+      </figure>
+      <p class="showcase-copy">The keeper, a generative model from OpenAI, then writes the reply. It can ask to reveal a clue or to judge an accusation, and the engine checks each request against the script. After the reply is shown, a smaller recorder model reads the turn in the background and proposes what changed: where the player ended up, who moved, which items changed hands. The engine validates those proposals before storing them, and never lets them overwrite what the author fixed.</p>
+    </section>
+    <section class="showcase-section" id="state" aria-labelledby="state-title">
+      <h2 id="state-title">The engine is the source of truth</h2>
+      <p class="showcase-copy">The keeper decides what happens; the engine decides what is true. The script is split into a few dozen clues, each with a discovery condition, prerequisites, and consequences. Every turn the model is sent the clues the player already knows, plus only the conditions of clues that are reachable right now. The text of an undiscovered clue is never in the prompt, so a model that is pushed, tricked, or simply too helpful has nothing to give away.</p>
+      <figure>
+        <a href="images/keeper-view.svg" aria-label="Open full-size diagram: what the engine holds compared with what the keeper model is shown each turn.">
+          <img src="images/keeper-view.svg" width="960" height="380" loading="lazy" decoding="async" alt="Diagram comparing what the engine holds, the per-turn filter, and the limited view the keeper model receives.">
+        </a>
+        <figcaption>The prompt is rebuilt from state every turn, so the model's own earlier wording cannot drift into fact. Select the diagram to view it at full size.</figcaption>
+      </figure>
+      <p class="showcase-copy">Accusations follow the same rule. The engine tracks which evidence has been shown for each charge across turns, requires the accused to be in the room, and grades the result by evidence strength. When the proof falls short, the keeper writes the denial and points at the kind of evidence still missing. The clue list the player sees is the engine's record, with the place and turn each clue was found.</p>
+      <figure>
+        <a href="images/03-clues.jpg" aria-label="Open full-size image: the known clues list in the case notes.">
+          <img src="images/03-clues.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="The case notes scrolled to the known clues list, each clue with its text, location, and the turn it was found.">
+        </a>
+        <figcaption>Known clues early in the demo case. Only what the player has found is ever sent to the browser. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="authoring" aria-labelledby="authoring-title">
+      <h2 id="authoring-title">Cases are data</h2>
+      <p class="showcase-copy">A case is a folder of hand-written files: public setting, locations and their links, characters and where they usually are, items, clues, and the charges that can be proven. Conditions throughout use one small vocabulary, known and unknown clues, so the same check decides when a clue is discoverable, when a character appears, when a hint is due, and which lines the epilogue includes. The loader rejects anything it does not recognize and says how to fix it.</p>
+      <p class="showcase-copy">The same split applies to authors as to models: a writer describes what is true and when it can be found, and never has to script what the keeper says. An automated player can run a whole case end to end, which makes a new case, or a change to the rules, something that can be tried in minutes.</p>
+    </section>
+    <section class="showcase-section" aria-labelledby="design-title">
+      <h2 id="design-title">Design tradeoffs</h2>
+      <article aria-label="Narrative Memory Engine design tradeoffs">
+        <ul class="details">
+          <li><strong>Fast model for judgment, slow model for prose.</strong> Whether a line means “go to the kitchen” is a closed question with a right answer; how the kitchen feels at dusk is not. The first goes to a decision model that answers quickly with a probability the engine can threshold. The second goes to a generative model. The cost is a second dependency and two kinds of error to reconcile. The gain is that the slow model is never asked to be a parser.</li>
+          <li><strong>State in the engine, not in the conversation.</strong> A long chat is a poor database: the model's last paragraph outweighs a fact from twenty turns ago. So anything that must stay true is recorded as engine state and handed back each turn. That costs a bookkeeping pass per turn and a schema for every kind of fact. It buys a world that does not drift.</li>
+          <li><strong>The keeper is free; the record is strict.</strong> The engine does not block the narrator in the middle of a scene. The model decides what happens, the engine writes down the result, and where the two disagree they are reconciled after the reply: narration wins on what just happened, the script wins on what the author fixed. This keeps play fluid and accepts that a correction may arrive a turn late.</li>
+          <li><strong>Division of labor keeps the prompt light.</strong> Because decisions run first and the engine filters, the keeper's prompt holds only what this turn needs: the clues in reach, the people in the room, the rule for the situation at hand. A shorter prompt is cheaper, and it also leaves the model fewer instructions to weigh against each other.</li>
+          <li><strong>Authored structure under free play.</strong> Players can type anything, but a mystery needs a fixed truth. Clues, conditions, and charges are authored; the wording, pacing, and characters' voices are improvised. The seam is the discovery condition, written in plain language and judged against the player's line, with more than one independent route to each thing that must be proven.</li>
+          <li><strong>Evidence over impressions.</strong> With models in the loop, a change that fixes one line can break three others. Every turn can be logged in full and replayed offline, so a rule is kept only if recorded games get better.</li>
+        </ul>
+      </article>
+      <p class="project-note showcase-copy">Built with TypeScript, React, and Express, the OpenAI API for narration, recording, and embeddings, and TypeSafe Jev for decisions. The interface and story content support localization. The screenshots show a real recorded English-language playthrough, captured early enough not to spoil the case.</p>
+    </section>
+    <footer><a href="/#projects">← Back to projects</a></footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="t d" font-family="system-ui, sans-serif">
+  <title id="t">One turn of the game</title>
+  <desc id="d">The player's line goes to fast decisions and memory retrieval, then the engine applies the result and builds the keeper's view, the keeper model narrates, and a recorder model turns the narration back into engine state for the next turn.</desc>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#626864"/></marker>
+  </defs>
+  <rect width="960" height="400" fill="#f5f5f2"/>
+  <g font-size="11" fill="#626864" font-family="ui-monospace, monospace" letter-spacing="1.5">
+    <text x="20" y="30">BEFORE THE KEEPER WRITES</text>
+    <text x="590" y="30">NARRATION</text>
+    <text x="20" y="262">AFTER THE REPLY</text>
+  </g>
+  <g stroke="#626864" stroke-width="1.4" fill="none" marker-end="url(#a)">
+    <path d="M180 100H206"/>
+    <path d="M370 100H396"/>
+    <path d="M560 100H586"/>
+    <path d="M750 100H776"/>
+    <path d="M860 155V276"/>
+    <path d="M780 320H564"/>
+    <path d="M480 276V159"/>
+    <path d="M290 276V159" stroke-dasharray="5 4"/>
+  </g>
+  <g stroke="#d1d4d0" stroke-width="1">
+    <rect x="20" y="45" width="160" height="110" rx="12" fill="#eceeea"/>
+    <rect x="210" y="45" width="160" height="110" rx="12" fill="#eceeea"/>
+    <rect x="400" y="45" width="160" height="110" rx="12" fill="#3c5043" stroke="#3c5043"/>
+    <rect x="590" y="45" width="160" height="110" rx="12" fill="#eceeea"/>
+    <rect x="780" y="45" width="160" height="110" rx="12" fill="#eceeea"/>
+    <rect x="780" y="280" width="160" height="90" rx="12" fill="#eceeea"/>
+    <rect x="210" y="280" width="350" height="90" rx="12" fill="#3c5043" stroke="#3c5043"/>
+  </g>
+  <g font-size="14" font-weight="650" fill="#252927">
+    <text x="36" y="72">Player line</text>
+    <text x="226" y="72">Decisions</text>
+    <text x="606" y="72">Keeper</text>
+    <text x="796" y="72">Reply</text>
+    <text x="796" y="307">Recorder</text>
+  </g>
+  <g font-size="14" font-weight="650" fill="#fff">
+    <text x="416" y="72">Engine</text>
+    <text x="226" y="307">Engine state</text>
+  </g>
+  <g font-size="12" fill="#626864">
+    <text x="36" y="94">Free text, one</text>
+    <text x="36" y="110">sentence or a few</text>
+    <text x="226" y="94">Move? Which clues</text>
+    <text x="226" y="110">does this satisfy?</text>
+    <text x="226" y="126">An accusation?</text>
+    <text x="226" y="142">+ memory retrieval</text>
+    <text x="606" y="94">Generative model</text>
+    <text x="606" y="110">writes the scene and</text>
+    <text x="606" y="126">asks to reveal clues;</text>
+    <text x="606" y="142">the engine checks</text>
+    <text x="796" y="94">Narration and any</text>
+    <text x="796" y="110">newly found clues</text>
+    <text x="796" y="126">shown to the player</text>
+    <text x="796" y="328">Small model reads</text>
+    <text x="796" y="344">the turn and proposes</text>
+    <text x="796" y="360">state changes</text>
+  </g>
+  <g font-size="12" fill="#e4e8e3">
+    <text x="416" y="94">Applies the move,</text>
+    <text x="416" y="110">notes what is seen</text>
+    <text x="416" y="126">on arrival, builds the</text>
+    <text x="416" y="142">keeper's view</text>
+    <text x="226" y="328">Where the player is, who is where, items,</text>
+    <text x="226" y="344">facts that changed, known clues, turn summaries</text>
+  </g>
+  <g font-size="11" fill="#626864">
+    <text x="850" y="220" text-anchor="end">in the background</text>
+    <text x="606" y="312">validated before</text>
+    <text x="606" y="340">it is stored</text>
+    <text x="488" y="222">current state, every turn</text>
+    <text x="150" y="222">recent turn summaries</text>
+  </g>
+</svg>
