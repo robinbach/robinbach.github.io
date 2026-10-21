@@ -13,12 +13,8 @@
       a.href = u.href;
     }
   }
-  button.addEventListener('click', async () => {
+  button.addEventListener('click', () => {
     enabled = !enabled; status.textContent = ''; update();
-    if (enabled && document.documentElement.requestFullscreen) {
-      try { await document.documentElement.requestFullscreen(); }
-      catch { status.textContent = zh ? '已进入窗口演讲模式' : 'Presenting in this window'; }
-    } else if (!enabled && document.fullscreenElement) { try { await document.exitFullscreen(); } catch {} }
   });
   document.addEventListener('keydown', (event) => {
     if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey || event.target.closest('input,textarea,select,button,summary,[contenteditable]')) return;
@@ -27,6 +23,5 @@
     const anchor = id && document.getElementById(id);
     if (anchor) { event.preventDefault(); location.href = anchor.href; }
   });
-  document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) { enabled = false; update(); } });
   update();
 })();
