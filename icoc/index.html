@@ -46,6 +46,10 @@
     strong { color: var(--ink); font-weight: 650; }
     .project-note { font-size: .85rem; }
     .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+    .button { display: inline-flex; gap: 18px; align-items: center; background: var(--accent); color: #fff; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .button:hover { background: var(--ink); }
+    .cta { margin-top: 22px; }
+    .cta + .actions { margin-top: 20px; }
     a { color: inherit; text-underline-offset: 4px; }
     a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
     .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px 16px; background: var(--surface); transform: translateY(-200%); }
@@ -84,7 +88,8 @@
       <h1 id="narrative-memory-title">Narrative Memory Engine</h1>
       <p class="positioning">A managed-memory interactive narrative system where a language model handles prose while an engine maintains story state, controlled context, and deterministic rules.</p>
       <p class="intro-copy">The player types what their investigator says or does. A model plays the keeper: it describes the scene and speaks for the people in the house. What it cannot do is leak the mystery or lose track of the world, because it is never shown the parts of the script the player has not earned, and everything that must stay consistent is recorded by the engine and handed back to it each turn.</p>
-      <nav class="actions" aria-label="Showcase sections"><a href="#play">Play</a><a href="#turn">One turn</a><a href="#state">State</a><a href="#challenges">Challenges</a><a href="#authoring">Authoring</a><a href="architecture.html">Architecture, layer by layer →</a></nav>
+      <div class="cta"><a class="button" href="architecture.html">See the architecture, layer by layer <span aria-hidden="true">→</span></a></div>
+      <nav class="actions" aria-label="Showcase sections"><a href="#play">Play</a><a href="#turn">One turn</a><a href="#state">State</a><a href="#challenges">Challenges</a><a href="#authoring">Authoring</a></nav>
     </section>
     <section class="showcase-section" id="play" aria-labelledby="play-title">
       <h2 id="play-title">Free text in, a tracked investigation out</h2>
