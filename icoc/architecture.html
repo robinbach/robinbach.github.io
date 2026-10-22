@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCGHR8JG5T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WCGHR8JG5T');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Architecture of the Narrative Memory Engine by Jianing Wang: every layer of one turn, with question counts, thresholds and measured latency.">
+  <meta name="theme-color" content="#f5f5f2">
+  <title>Architecture — Narrative Memory Engine — Jianing Wang</title>
+  <style>
+    :root {
+      --accent: #3c5043;
+      --accent-soft: #e1e9e3;
+      --ink: #252927;
+      --line: #d1d4d0;
+      --muted: #626864;
+      --page: #f5f5f2;
+      --surface: #eceeea;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--page);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    section[id], article[id] { scroll-margin-top: 24px; }
+    main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 16px; font-weight: 650; letter-spacing: -.03em; }
+    .showcase-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+    .showcase-nav a { font-size: .9rem; font-weight: 400; letter-spacing: normal; }
+    .intro { padding: 36px 0 20px; max-width: 760px; }
+    .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.05rem, 5vw, 3.6rem); line-height: 1.06; letter-spacing: -.055em; margin: 8px 0 12px; font-weight: 550; }
+    .positioning { font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.5; max-width: 680px; }
+    .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 680px; }
+    h2 { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
+    h3 { font-size: 1.15rem; margin: 0; letter-spacing: -.02em; font-weight: 650; }
+    a { color: inherit; text-underline-offset: 4px; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px 16px; background: var(--surface); transform: translateY(-200%); }
+    .skip-link:focus { transform: translateY(0); }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+    .section { margin-top: 40px; }
+    .copy { max-width: 720px; color: var(--muted); line-height: 1.8; }
+    figure { margin: 16px 0 0; }
+    figcaption { color: var(--muted); font-size: .85rem; line-height: 1.6; margin-top: 8px; max-width: 720px; }
+    .viewport { overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--page); }
+    .viewport svg { display: block; width: 100%; min-width: 760px; height: auto; }
+    .viewport:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+    .scroll-hint { display: none; color: var(--muted); font-size: .8rem; margin: 6px 0 0; }
+    @media (max-width: 800px) { .scroll-hint { display: block; } }
+
+    /* diagram */
+    .d-t { font-size: 14px; font-weight: 650; fill: var(--ink); }
+    .d-s { font-size: 12px; fill: var(--muted); }
+    .d-m { font: 600 11.5px ui-monospace, monospace; fill: var(--accent); }
+    .d-te { font-size: 14px; font-weight: 650; fill: #fff; }
+    .d-se { font-size: 12px; fill: #dfe5e0; }
+    .d-me { font: 600 11.5px ui-monospace, monospace; fill: #c8d6cb; }
+    .d-l { font: 600 11px ui-monospace, monospace; fill: var(--muted); letter-spacing: .08em; }
+    .b-dec { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.2; }
+    .b-gen { fill: var(--surface); stroke: #b9bdb8; }
+    .b-eng { fill: var(--accent); stroke: var(--accent); }
+    .b-aux { fill: #fff; stroke: #b9bdb8; stroke-dasharray: 4 3; }
+    .flow a rect { transition: filter .15s; }
+    .flow a:hover rect, .flow a:focus rect { filter: brightness(.95); }
+    .flow a:focus { outline: none; }
+    .flow a:focus-visible rect { stroke: var(--ink); stroke-width: 2.5; }
+    .ln { stroke: #626864; stroke-width: 1.4; fill: none; }
+
+    /* tables */
+    .table-wrap { overflow-x: auto; margin-top: 16px; border: 1px solid var(--line); border-radius: 8px; }
+    table { border-collapse: collapse; width: 100%; min-width: 640px; font-size: .9rem; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; line-height: 1.5; }
+    th { font-weight: 650; background: var(--surface); }
+    tbody tr:last-child td { border-bottom: 0; }
+    td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    td a { text-decoration-color: var(--line); }
+    .tag { display: inline-block; font: 600 .7rem ui-monospace, monospace; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+    .tag.dec { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+    .tag.eng { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .tag.gen { background: var(--surface); }
+    .tag.aux { border-style: dashed; }
+
+    /* layers */
+    .layers { display: grid; gap: 16px; margin-top: 18px; }
+    .layer { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 28px); }
+    .layer-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 14px; }
+    .layer-head .no { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .1em; }
+    .stats { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 14px; padding: 0; list-style: none; }
+    .stats li { background: var(--page); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; min-width: 120px; }
+    .stats b { display: block; font-size: 1.15rem; font-weight: 650; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+    .stats span { color: var(--muted); font-size: .8rem; }
+    .layer dl { display: grid; grid-template-columns: 120px 1fr; gap: 10px 20px; margin: 0; line-height: 1.7; }
+    .layer dt { font-weight: 650; font-size: .85rem; padding-top: 2px; }
+    .layer dd { margin: 0; color: var(--muted); }
+    .layer dd ul { margin: 0; padding-left: 18px; }
+    .layer dd li + li { margin-top: 4px; }
+    .layer code { font: .85em ui-monospace, monospace; color: var(--ink); }
+    @media (max-width: 600px) { .layer dl { grid-template-columns: 1fr; gap: 2px; } .layer dd { margin-bottom: 10px; } }
+
+    /* prompt bars */
+    .bars { margin-top: 16px; display: grid; gap: 6px; max-width: 760px; }
+    .bars h3 { font-size: .9rem; margin: 14px 0 4px; color: var(--ink); }
+    .bar { display: grid; grid-template-columns: 190px 1fr 64px; gap: 12px; align-items: center; font-size: .85rem; }
+    .bar .track { display: block; height: 14px; background: var(--surface); border-radius: 3px; overflow: hidden; }
+    .bar .fill { display: block; height: 100%; background: var(--accent); border-radius: 3px; }
+    .bar.state .fill { background: #8fa595; }
+    .bar .n { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+    .bar .label small { color: var(--muted); }
+    @media (max-width: 520px) { .bar { grid-template-columns: 120px 1fr 52px; gap: 8px; font-size: .8rem; } }
+
+    .note { border-left: 3px solid var(--accent); padding: 4px 0 4px 14px; color: var(--muted); line-height: 1.7; max-width: 720px; }
+    footer { margin-top: 36px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+    @media (max-width: 480px) { main { padding-top: 20px; } .intro { padding: 26px 0 16px; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content">
+    <header class="showcase-nav"><span>Narrative Memory Engine</span><a href="./">← Showcase</a></header>
+
+    <section class="intro" aria-labelledby="arch-title">
+      <p class="eyebrow">Architecture / One turn, layer by layer</p>
+      <h1 id="arch-title">What happens between a line and a reply</h1>
+      <p class="positioning">Nine layers stand between what the player types and what the keeper writes back. Five of them call a model, one calls an embedding service, and three are plain engine code.</p>
+      <p class="intro-copy">This page follows one turn from start to finish. Every count, threshold and timing below was measured, not estimated: the timings come from a recorded scripted game of 44 turns, with each step logged with its start time and duration, and the accuracy figures come from the project's own test sets. Select any box in the diagram to jump to that layer.</p>
+      <nav class="actions" aria-label="Page sections"><a href="#flow">Flow</a><a href="#timeline">Timeline</a><a href="#numbers">Numbers</a><a href="#layers">Layers</a><a href="#prompt">The prompt</a><a href="#method">How it was measured</a></nav>
+    </section>
+
+    <section class="section" id="flow" aria-labelledby="flow-title">
+      <h2 id="flow-title">The flow</h2>
+      <p class="copy">The turn reads from top to bottom. Everything above the keeper settles what happens; the keeper writes it; everything below the reply records it for the next turn. Numbers in each box are medians over the 44 turns.</p>
+      <figure>
+        <div class="viewport" tabindex="0" role="region" aria-label="Turn flow diagram, scrolls horizontally on narrow screens">
+          <svg class="flow" viewBox="0 0 920 1000" role="img" aria-labelledby="flow-t flow-d" font-family="system-ui, sans-serif">
+            <title id="flow-t">One turn of the Narrative Memory Engine</title>
+            <desc id="flow-d">The player's line goes to three parallel steps: memory retrieval, the move decision and the meta check. A flagged meta check short-circuits to an aside reply. Otherwise the engine applies the move, the reveal pre-check asks per-clue and per-item questions, the engine applies the judgments and builds the prompt, the keeper writes the reply and may call the case engine, and after the reply a recorder proposes further changes that the engine validates and stores for the next turn.</desc>
+            <defs>
+              <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#626864"/></marker>
+            </defs>
+
+            <!-- legend -->
+            <g transform="translate(40 14)">
+              <rect width="14" height="14" rx="3" class="b-dec"/><text x="20" y="11.5" class="d-s">Decision model (Jev)</text>
+              <rect x="170" width="14" height="14" rx="3" class="b-gen"/><text x="190" y="11.5" class="d-s">Generative model</text>
+              <rect x="320" width="14" height="14" rx="3" class="b-eng"/><text x="340" y="11.5" class="d-s">Engine code</text>
+              <rect x="440" width="14" height="14" rx="3" class="b-aux"/><text x="460" y="11.5" class="d-s">Embeddings, input and output</text>
+            </g>
+
+            <!-- connectors -->
+            <g class="ln">
+              <path d="M460 96V118"/>
+              <path d="M170 118H750"/>
+              <path d="M170 118V138" marker-end="url(#ah)"/>
+              <path d="M460 118V138" marker-end="url(#ah)"/>
+              <path d="M750 118V138" marker-end="url(#ah)"/>
+              <path d="M170 252V274"/>
+              <path d="M460 252V274"/>
+              <path d="M750 252V274"/>
+              <path d="M170 274H750"/>
+              <path d="M460 274V294" marker-end="url(#ah)"/>
+              <path d="M850 252V382" marker-end="url(#ah)" stroke-dasharray="5 4"/>
+              <path d="M460 354V382" marker-end="url(#ah)"/>
+              <path d="M460 512V538" marker-end="url(#ah)"/>
+              <path d="M370 636V664" marker-end="url(#ah)"/>
+              <path d="M550 700H568" marker-end="url(#ah)"/>
+              <path d="M570 730H552" marker-end="url(#ah)"/>
+              <path d="M370 762V788" marker-end="url(#ah)"/>
+              <path d="M370 844V872" marker-end="url(#ah)" stroke-dasharray="5 4"/>
+              <path d="M550 914H568" marker-end="url(#ah)"/>
+              <path d="M650 954V978H18V70H328" marker-end="url(#ah)"/>
+            </g>
+            <text class="d-l" x="470" y="112">IN PARALLEL</text>
+            <text class="d-l" x="470" y="290">WAIT FOR ALL THREE</text>
+            <text class="d-s" x="858" y="320">flagged</text>
+            <text class="d-s" x="380" y="862">after the reply</text>
+            <text class="d-l" transform="translate(32 640) rotate(-90)">STATE FOR THE NEXT TURN</text>
+
+            <!-- player line -->
+            <g>
+              <rect x="330" y="44" width="260" height="52" rx="12" class="b-aux"/>
+              <text class="d-t" x="346" y="66">Player line</text>
+              <text class="d-s" x="346" y="84">Free text, one sentence or several</text>
+            </g>
+
+            <!-- row 2 -->
+            <a href="#layer-memory">
+              <rect x="40" y="140" width="260" height="112" rx="12" class="b-aux"/>
+              <text class="d-t" x="56" y="164">Memory retrieval</text>
+              <text class="d-m" x="56" y="184">31 of 44 turns · 269 ms</text>
+              <text class="d-s" x="56" y="206">Only for turns that have left</text>
+              <text class="d-s" x="56" y="222">the 12-turn window; the top 3</text>
+              <text class="d-s" x="56" y="238">by similarity go to the prompt</text>
+            </a>
+            <a href="#layer-move">
+              <rect x="330" y="140" width="260" height="112" rx="12" class="b-dec"/>
+              <text class="d-t" x="346" y="164">Move decision</text>
+              <text class="d-m" x="346" y="184">2–3 questions · 124 ms</text>
+              <text class="d-s" x="346" y="206">Where does the player set off</text>
+              <text class="d-s" x="346" y="222">for? Several places? Who comes</text>
+              <text class="d-s" x="346" y="238">along? Moves at ≥ 0.6</text>
+            </a>
+            <a href="#layer-meta">
+              <rect x="620" y="140" width="260" height="112" rx="12" class="b-dec"/>
+              <text class="d-t" x="636" y="164">Meta check</text>
+              <text class="d-m" x="636" y="184">4 questions · 121 ms</text>
+              <text class="d-s" x="636" y="206">Hint request? Prompt probe?</text>
+              <text class="d-s" x="636" y="222">Unrelated request? Writing</text>
+              <text class="d-s" x="636" y="238">another character's reaction?</text>
+            </a>
+
+            <!-- row 3 -->
+            <a href="#layer-apply-move">
+              <rect x="190" y="296" width="540" height="58" rx="12" class="b-eng"/>
+              <text class="d-te" x="206" y="320">Engine · apply the move</text>
+              <text class="d-se" x="206" y="340">13 of 44 turns · the player is moved before the keeper writes · &lt; 1 ms</text>
+            </a>
+
+            <!-- row 4 -->
+            <a href="#layer-precheck">
+              <rect x="190" y="384" width="540" height="128" rx="12" class="b-dec"/>
+              <text class="d-t" x="206" y="408">Reveal pre-check</text>
+              <text class="d-m" x="206" y="428">5–20 questions, median 9 · 88 ms</text>
+              <text class="d-s" x="206" y="450">Each clue in reach (0–5): does this line meet its discovery condition?</text>
+              <text class="d-s" x="206" y="466">Each known clue (0–12): is it being shown to a suspect in the room?</text>
+              <text class="d-s" x="206" y="482">Each carried item (1–4): is it handed over, put down or used up?</text>
+              <text class="d-s" x="206" y="498">Situational rules (2) · an accusation? · naming someone?</text>
+            </a>
+            <a href="#layer-meta">
+              <rect x="760" y="384" width="140" height="128" rx="12" class="b-aux"/>
+              <text class="d-t" x="774" y="408">Aside reply</text>
+              <text class="d-s" x="774" y="430">Hint request:</text>
+              <text class="d-s" x="774" y="446">offer a hint</text>
+              <text class="d-s" x="774" y="466">Probe, unrelated:</text>
+              <text class="d-s" x="774" y="482">fixed reply</text>
+              <text class="d-s" x="774" y="502">Not a turn</text>
+            </a>
+
+            <!-- row 5 -->
+            <a href="#layer-apply">
+              <rect x="190" y="540" width="540" height="96" rx="12" class="b-eng"/>
+              <text class="d-te" x="206" y="564">Engine · apply the judgments, build the prompt</text>
+              <text class="d-se" x="206" y="586">Reveals clues ≥ 0.35 · records evidence ≥ 0.6 · hand-overs ≥ 0.5</text>
+              <text class="d-se" x="206" y="604">Offers the accuse tool only at accusation ≥ 0.2 and naming ≥ 0.5</text>
+              <text class="d-se" x="206" y="622">Rebuilds the keeper's prompt from state: about 8,000 characters</text>
+            </a>
+
+            <!-- row 6 -->
+            <a href="#layer-keeper">
+              <rect x="190" y="666" width="360" height="96" rx="12" class="b-gen"/>
+              <text class="d-t" x="206" y="690">Keeper</text>
+              <text class="d-m" x="206" y="710">1–3 calls · 2.6 s per call</text>
+              <text class="d-s" x="206" y="732">7,160 tokens in (2,850 cached), 147 out</text>
+              <text class="d-s" x="206" y="748">Writes the scene from what was decided</text>
+            </a>
+            <a href="#layer-case">
+              <rect x="570" y="666" width="160" height="96" rx="12" class="b-eng"/>
+              <text class="d-te" x="584" y="690">Case engine</text>
+              <text class="d-me" x="584" y="710">6 of 44 turns</text>
+              <text class="d-se" x="584" y="732">accuse(suspect)</text>
+              <text class="d-se" x="584" y="748">graded by evidence</text>
+            </a>
+
+            <!-- row 7 -->
+            <g>
+              <rect x="190" y="790" width="360" height="54" rx="12" class="b-aux"/>
+              <text class="d-t" x="206" y="812">Reply to the player</text>
+              <text class="d-m" x="206" y="832">3.2 s median · 4.4 s p90</text>
+            </g>
+
+            <!-- row 8 -->
+            <a href="#layer-recorder">
+              <rect x="190" y="874" width="360" height="80" rx="12" class="b-gen"/>
+              <text class="d-t" x="206" y="898">Recorder</text>
+              <text class="d-m" x="206" y="918">1 call · 3.9 s, off the player's wait</text>
+              <text class="d-s" x="206" y="940">Proposes who moved, facts, conflicts</text>
+            </a>
+            <a href="#layer-recorder">
+              <rect x="570" y="874" width="160" height="80" rx="12" class="b-eng"/>
+              <text class="d-te" x="584" y="898">Validate, store</text>
+              <text class="d-se" x="584" y="918">must agree with</text>
+              <text class="d-se" x="584" y="934">the decisions; fixed</text>
+              <text class="d-se" x="584" y="950">facts stay fixed</text>
+            </a>
+          </svg>
+        </div>
+        <p class="scroll-hint">Scroll sideways to see the whole diagram.</p>
+        <figcaption>A dashed arrow is a path that only some turns take. The meta check can end the turn early; the recorder runs after the reply is already on screen, and the next turn waits for it only if it has not finished.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="timeline" aria-labelledby="timeline-title">
+      <h2 id="timeline-title">Where the time goes</h2>
+      <p class="copy">The same turn on a time axis. The decision layers take about a tenth of the wait; almost all of it is the keeper writing. The upper panel zooms in on the first 400 ms.</p>
+      <figure>
+        <div class="viewport" tabindex="0" role="region" aria-label="Turn timeline, scrolls horizontally on narrow screens">
+          <svg viewBox="0 0 920 400" role="img" aria-labelledby="tl-t tl-d" font-family="system-ui, sans-serif">
+            <title id="tl-t">Timeline of a median turn</title>
+            <desc id="tl-d">In the first 400 ms, the meta check, the move decision and memory retrieval run at the same time, then the reveal pre-check runs and the keeper starts at about 385 ms. Over the whole turn, the keeper writes from about 0.4 s to 3.0 s, the reply is shown, and the recorder runs in the background until about 7 s.</desc>
+            <text class="d-l" x="20" y="24">FIRST 400 MS · A TURN WITH MEMORY RETRIEVAL</text>
+            <g class="d-s" text-anchor="middle">
+              <text x="190" y="190">0</text><text x="370" y="190">100</text><text x="550" y="190">200</text><text x="730" y="190">300</text><text x="910" y="190" text-anchor="end">400 ms</text>
+            </g>
+            <g stroke="#d1d4d0" stroke-width="1">
+              <path d="M190 40V176M370 40V176M550 40V176M730 40V176M910 40V176"/>
+            </g>
+            <g class="d-s">
+              <text x="20" y="57">Meta check</text>
+              <text x="20" y="81">Move decision</text>
+              <text x="20" y="105">Memory retrieval</text>
+              <text x="20" y="129">Reveal pre-check</text>
+              <text x="20" y="153">Prompt, keeper starts</text>
+            </g>
+            <rect x="197" y="44" width="218" height="16" rx="3" class="b-dec"/>
+            <rect x="206" y="68" width="223" height="16" rx="3" class="b-dec"/>
+            <rect x="203" y="92" width="500" height="16" rx="3" class="b-aux"/>
+            <rect x="703" y="116" width="158" height="16" rx="3" class="b-dec"/>
+            <rect x="861" y="140" width="49" height="16" rx="3" class="b-gen"/>
+            <path d="M883 140V164" stroke="#252927" stroke-width="1.5"/>
+            <g class="d-m">
+              <text x="421" y="57">121</text>
+              <text x="435" y="81">124</text>
+              <text x="709" y="105" text-anchor="start">269 + write</text>
+              <text x="697" y="129" text-anchor="end">88</text>
+              <text x="855" y="153" text-anchor="end">385</text>
+            </g>
+
+            <text class="d-l" x="20" y="236">WHOLE TURN</text>
+            <g class="d-s" text-anchor="middle">
+              <text x="190" y="378">0</text><text x="290" y="378">1 s</text><text x="390" y="378">2 s</text><text x="490" y="378">3 s</text><text x="590" y="378">4 s</text><text x="690" y="378">5 s</text><text x="790" y="378">6 s</text><text x="890" y="378">7 s</text>
+            </g>
+            <g stroke="#d1d4d0" stroke-width="1">
+              <path d="M190 250V364M290 250V364M390 250V364M490 250V364M590 250V364M690 250V364M790 250V364M890 250V364"/>
+            </g>
+            <g class="d-s">
+              <text x="20" y="269">Decisions</text>
+              <text x="20" y="293">Keeper</text>
+              <text x="20" y="317">Reply shown</text>
+              <text x="20" y="341">Recorder</text>
+            </g>
+            <rect x="190" y="256" width="39" height="16" rx="3" class="b-dec"/>
+            <rect x="229" y="280" width="264" height="16" rx="3" class="b-gen"/>
+            <path d="M493 302V326" stroke="#252927" stroke-width="2"/>
+            <rect x="493" y="328" width="393" height="16" rx="3" class="b-gen" stroke-dasharray="4 3"/>
+            <g class="d-m">
+              <text x="236" y="269">0.385 s</text>
+              <text x="500" y="293">2.64 s</text>
+              <text x="500" y="317">≈ 3.0 s</text>
+              <text x="880" y="341" text-anchor="end">3.93 s, in the background</text>
+            </g>
+          </svg>
+        </div>
+        <p class="scroll-hint">Scroll sideways to see the whole timeline.</p>
+        <figcaption>Each bar is the median of that step over the 44 turns, placed where it starts. On the 13 turns without memory retrieval the keeper starts at 234 ms. A turn with an accusation makes a second keeper call, so the median over all turns is 3.2 s rather than 3.0 s.</figcaption>
+      </figure>
+    </section>
+
+    <section class="section" id="numbers" aria-labelledby="numbers-title">
+      <h2 id="numbers-title">Every layer in one table</h2>
+      <p class="copy">Medians over 44 turns unless stated. “Questions” counts the closed questions in that layer's request; each one gets its own probability.</p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Layer</th><th>Kind</th><th>Runs</th><th class="num">Questions</th><th class="num">Time</th><th class="num">p90</th><th>Input tokens</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><a href="#layer-meta">Meta check</a></td><td><span class="tag dec">Jev</span></td><td>every turn</td><td class="num">4</td><td class="num">121 ms</td><td class="num">145 ms</td><td>≈ 1,300</td></tr>
+            <tr><td><a href="#layer-move">Move decision</a></td><td><span class="tag dec">Jev</span></td><td>every turn</td><td class="num">2–3</td><td class="num">124 ms</td><td class="num">145 ms</td><td>≈ 2,100</td></tr>
+            <tr><td><a href="#layer-memory">Memory retrieval</a></td><td><span class="tag aux">embed</span></td><td>31 of 44</td><td class="num">–</td><td class="num">269 ms</td><td class="num">407 ms</td><td>small</td></tr>
+            <tr><td><a href="#layer-apply-move">Apply the move</a></td><td><span class="tag eng">engine</span></td><td>13 of 44</td><td class="num">–</td><td class="num">&lt; 1 ms</td><td class="num">–</td><td>–</td></tr>
+            <tr><td><a href="#layer-precheck">Reveal pre-check</a></td><td><span class="tag dec">Jev</span></td><td>every turn</td><td class="num">5–20 (9)</td><td class="num">88 ms</td><td class="num">112 ms</td><td>≈ 2,600</td></tr>
+            <tr><td><a href="#layer-apply">Apply judgments, build prompt</a></td><td><span class="tag eng">engine</span></td><td>every turn</td><td class="num">–</td><td class="num">&lt; 1 ms</td><td class="num">–</td><td>–</td></tr>
+            <tr><td><strong>Before the keeper starts</strong></td><td></td><td></td><td class="num">≈ 16</td><td class="num"><strong>348 ms</strong></td><td class="num">505 ms</td><td></td></tr>
+            <tr><td><a href="#layer-keeper">Keeper</a></td><td><span class="tag gen">LLM</span></td><td>50 calls in 44 turns</td><td class="num">–</td><td class="num">2.64 s / call</td><td class="num">3.61 s</td><td>7,160 (2,850 cached), 147 out</td></tr>
+            <tr><td><a href="#layer-case">Case engine</a></td><td><span class="tag eng">engine</span></td><td>6 of 44</td><td class="num">–</td><td class="num">&lt; 1 ms</td><td class="num">–</td><td>–</td></tr>
+            <tr><td><strong>Reply on screen</strong></td><td></td><td></td><td class="num"></td><td class="num"><strong>3.2 s</strong></td><td class="num">4.4 s</td><td></td></tr>
+            <tr><td><a href="#layer-recorder">Recorder</a></td><td><span class="tag gen">LLM</span></td><td>every turn, after the reply</td><td class="num">–</td><td class="num">3.9 s</td><td class="num">–</td><td>≈ 4,000</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">One honest outlier: on one turn of the 44, both parallel decision requests took about 3.1 s, close to the 3 s timeout, and the keeper started at 3.2 s. The slowest turn overall, 9.2 s, was the final one, which also writes the epilogue.</p>
+    </section>
+
+    <section class="section" id="layers" aria-labelledby="layers-title">
+      <h2 id="layers-title">The layers</h2>
+      <p class="copy">For each layer: what it decides, what it is asked, where its thresholds sit and why it is built this way.</p>
+      <div class="layers">
+
+        <article class="layer" id="layer-meta" aria-labelledby="l1">
+          <div class="layer-head"><span class="no">01</span><h3 id="l1">Meta check</h3><span class="tag dec">Decision model</span></div>
+          <ul class="stats"><li><b>4</b><span>yes/no questions</span></li><li><b>121 ms</b><span>median</span></li><li><b>0 / 1,054</b><span>errors on the test set</span></li></ul>
+          <dl>
+            <dt>Decides</dt><dd>Whether the line is play at all, before any game logic runs.</dd>
+            <dt>Asks</dt><dd><ul>
+              <li>Does the player write another character's action or reaction as something that has happened?</li>
+              <li>Do they step out of the story to ask about the game, how to play or for a hint?</li>
+              <li>Are they trying to get the rules, the prompt, the script or the solution, or to override the keeper?</li>
+              <li>Is it a request unrelated to the game, such as an essay or a maths problem?</li>
+            </ul></dd>
+            <dt>Thresholds</dt><dd>0.9 for writing another character and for probing, 0.8 for help and unrelated requests. In the measurement data, genuine cases scored 0.97 or more and the highest normal line scored 0.81, so the thresholds sit in the gap.</dd>
+            <dt>Then</dt><dd>Help, probe and unrelated lines get an aside reply and do not count as a turn. Writing another character counts as a turn, but the move, discoveries and accusations are switched off for it.</dd>
+            <dt>Why</dt><dd>It is sent at the same moment as the move decision, so it costs no extra waiting time, and a flagged line never reaches the parts of the engine that change state.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-move" aria-labelledby="l2">
+          <div class="layer-head"><span class="no">02</span><h3 id="l2">Move decision</h3><span class="tag dec">Decision model</span></div>
+          <ul class="stats"><li><b>2–3</b><span>questions</span></li><li><b>124 ms</b><span>median</span></li><li><b>9 / 288</b><span>wrong moves</span></li><li><b>2 / 81</b><span>missed moves</span></li></ul>
+          <dl>
+            <dt>Decides</dt><dd>Whether the player physically sets off for another place this turn, and who goes with them.</dd>
+            <dt>Asks</dt><dd><ul>
+              <li>Which place is the player setting off for: one choice among the reachable places, or none.</li>
+              <li>Does the line send them to two or more places?</li>
+              <li>For each person present: do they come along, or part ways?</li>
+              <li>Only if the line names several places, a second request asks for each place whether the player sets off for it this turn.</li>
+            </ul></dd>
+            <dt>Thresholds</dt><dd>Move at 0.6 or above, unless “not moving” scores 0.8 or more. Second round: places at 0.7 or above. Companions: start following at 0.5, part at 0.55.</dd>
+            <dt>Why</dt><dd>Mentioning a room, asking the way, remembering it or saying “if she is there” are not moves. A closed question with a probability lets the engine stay put when it is unsure and leave the reply to the keeper. Counting places in a separate round keeps the common case to one request.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-memory" aria-labelledby="l3">
+          <div class="layer-head"><span class="no">03</span><h3 id="l3">Memory retrieval</h3><span class="tag aux">Embeddings</span></div>
+          <ul class="stats"><li><b>31 / 44</b><span>turns that needed it</span></li><li><b>269 ms</b><span>median</span></li><li><b>top 3</b><span>past turns injected</span></li></ul>
+          <dl>
+            <dt>Decides</dt><dd>Which older turns, no longer in the recent conversation, are worth showing the keeper again.</dd>
+            <dt>How</dt><dd>The last 12 turns go to the keeper as conversation. Turns that slide out of that window are embedded once and stored with the save. Each new line is compared against them, and up to three that score above a minimum go into the prompt as “possibly related”. A running summary of progress covers the rest.</dd>
+            <dt>Why</dt><dd>Facts that must stay true are already in engine state. Retrieval only brings back texture, such as what someone said and how, so it can fail without breaking the game: a failed retrieval just injects nothing.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-apply-move" aria-labelledby="l4">
+          <div class="layer-head"><span class="no">04</span><h3 id="l4">Apply the move</h3><span class="tag eng">Engine</span></div>
+          <ul class="stats"><li><b>13 / 44</b><span>turns moved</span></li><li><b>&lt; 1 ms</b><span>per turn</span></li></ul>
+          <dl>
+            <dt>Does</dt><dd>Moves the player and any companions, notes what is visible on arrival, and adds a short reminder after the player's line so the keeper writes the arrival rather than continuing the old scene.</dd>
+            <dt>Why first</dt><dd>The pre-check that follows asks about clues in reach from the new place, so the move has to be settled before it.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-precheck" aria-labelledby="l5">
+          <div class="layer-head"><span class="no">05</span><h3 id="l5">Reveal pre-check</h3><span class="tag dec">Decision model</span></div>
+          <ul class="stats"><li><b>5–20</b><span>questions, median 9</span></li><li><b>88 ms</b><span>median</span></li><li><b>1 / 50</b><span>wrongly held back</span></li><li><b>3 / 183</b><span>wrongly let through</span></li></ul>
+          <dl>
+            <dt>Decides</dt><dd>Everything else the line changes in state: what is found, what evidence is shown, what leaves the player's hands, and whether the keeper gets the accusation tool.</dd>
+            <dt>Asks</dt><dd><ul>
+              <li>For each clue in reach (0–5 in the recorded game): does this line meet its discovery condition? Clues that a candidate would unlock within the same action are asked in the same request.</li>
+              <li>For each known clue that can serve as evidence, when a suspect is present (0–12): is the player putting it in front of them?</li>
+              <li>For each carried item (1–4): does the player hand it over, put it down or use it up?</li>
+              <li>Two situational rules: producing a weapon, key or tool they do not carry; forcing something locked open.</li>
+              <li>Is this an accusation? Does the line itself name someone?</li>
+            </ul></dd>
+            <dt>Thresholds</dt><dd>Reveal 0.35, evidence 0.6, hand-over 0.5, accusation 0.2, naming 0.5, situational rules 0.5 and 0.6.</dd>
+            <dt>Why</dt><dd>The question count grows with what is in reach right now, not with the size of the script: the case has 28 clues, and no turn asked about more than 5 of them. The decision model sees discovery conditions, never clue text. Everything rides in one request, so a new kind of check adds questions but no new call.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-apply" aria-labelledby="l6">
+          <div class="layer-head"><span class="no">06</span><h3 id="l6">Apply the judgments, build the prompt</h3><span class="tag eng">Engine</span></div>
+          <ul class="stats"><li><b>≈ 8,000</b><span>characters of prompt</span></li><li><b>&lt; 1 ms</b><span>per turn</span></li></ul>
+          <dl>
+            <dt>Does</dt><dd><ul>
+              <li>Reveals the clues that passed, records the evidence shown against each suspect, applies hand-overs, and decides whether to offer the accusation tool.</li>
+              <li>Picks a hint if the player has been stuck long enough, unless they are clearly chatting rather than investigating.</li>
+              <li>Rebuilds the keeper's prompt from state: the fixed part first, then known clues, the current scene, progress and recalled turns. <a href="#prompt">See its composition.</a></li>
+              <li>Adds one-turn reminders after the player's line: the move, what was found, a triggered situational rule, or a note about something the last reply got wrong.</li>
+            </ul></dd>
+            <dt>Why</dt><dd>The prompt is rebuilt every turn, so nothing the model wrote earlier can harden into fact unless the engine recorded it.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-keeper" aria-labelledby="l7">
+          <div class="layer-head"><span class="no">07</span><h3 id="l7">Keeper</h3><span class="tag gen">Generative model</span></div>
+          <ul class="stats"><li><b>2.64 s</b><span>per call, median</span></li><li><b>50</b><span>calls in 44 turns</span></li><li><b>7,160</b><span>input tokens</span></li><li><b>2,850</b><span>of them cached</span></li><li><b>147</b><span>output tokens</span></li></ul>
+          <dl>
+            <dt>Does</dt><dd>Writes the scene and speaks for every other character, from what the engine settled. It decides how things happen, never whether a clue is found or where the player is.</dd>
+            <dt>Tools</dt><dd><code>accuse(suspect)</code>, only on turns that passed the accusation and naming checks; <code>close_case</code>, only after a charge has been proven and the player has confirmed. A tool call costs a second call, which is why 6 of 44 turns made two calls or more.</dd>
+            <dt>Rules</dt><dd>A short set of standing rules, about 1,800 characters, kept under a limit that a unit test enforces. Rules for rare situations are added only on the turns that trigger them.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-case" aria-labelledby="l8">
+          <div class="layer-head"><span class="no">08</span><h3 id="l8">Case engine</h3><span class="tag eng">Engine</span></div>
+          <ul class="stats"><li><b>6 / 44</b><span>turns with an accusation</span></li><li><b>&lt; 1 ms</b><span>per call</span></li></ul>
+          <dl>
+            <dt>Does</dt><dd>Judges an accusation against the author's charges. Each charge has parts, such as motive and act, and each part names the clues that prove it. The engine counts what has been shown to this person across all turns.</dd>
+            <dt>Outcome</dt><dd>Every part proven: confession. Most of it: a partial admission, once. Otherwise: denial, and the keeper hints at the kind of evidence still missing. The accused must be in the room. With no evidence at all, the denial names no charge, so an empty accusation cannot reveal what the charges are.</dd>
+            <dt>Why</dt><dd>The keeper names only the suspect. What was shown, and what that proves, is decided by the decision model and the engine.</dd>
+          </dl>
+        </article>
+
+        <article class="layer" id="layer-recorder" aria-labelledby="l9">
+          <div class="layer-head"><span class="no">09</span><h3 id="l9">Recorder and validation</h3><span class="tag gen">Generative model</span><span class="tag eng">Engine</span></div>
+          <ul class="stats"><li><b>3.9 s</b><span>median, after the reply</span></li><li><b>≈ 4,000</b><span>input tokens</span></li><li><b>53 → 27</b><span>false conflict reports, of 78</span></li></ul>
+          <dl>
+            <dt>Does</dt><dd>Reads the finished turn and proposes what else changed: where other people went, facts that became true, a one-line summary of the turn, and places where the reply contradicts the record.</dd>
+            <dt>Validation</dt><dd><ul>
+              <li>A change to the player's location must match the move decision; items leave the player only through the hand-over check.</li>
+              <li>Objects the author fixed cannot be rewritten. A rejected change is noted to the keeper on the next turn.</li>
+              <li>A conflict is kept only if it concerns an item, a person, a known clue or a recorded fact. The player's own words are never compared.</li>
+            </ul></dd>
+            <dt>Why</dt><dd>It runs after the reply is on screen, so it adds nothing to the wait. The next turn waits for it only if it has not finished.</dd>
+          </dl>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="prompt" aria-labelledby="prompt-title">
+      <h2 id="prompt-title">What the keeper reads</h2>
+      <p class="copy">The keeper's prompt, by section, in characters of the Chinese original (medians over the 44 turns). The fixed sections come first and are identical every turn, which is what lets about 2,850 input tokens be served from cache. Everything after them is rebuilt from state.</p>
+      <div class="bars" role="list">
+        <h3>Same every turn</h3>
+        <div class="bar" role="listitem"><span class="label">Standing rules</span><span class="track"><span class="fill" style="width:94.4%"></span></span><span class="n">1,803</span></div>
+        <div class="bar" role="listitem"><span class="label">Public setting</span><span class="track"><span class="fill" style="width:49.0%"></span></span><span class="n">935</span></div>
+        <div class="bar" role="listitem"><span class="label">Places and links</span><span class="track"><span class="fill" style="width:23.6%"></span></span><span class="n">450</span></div>
+        <div class="bar" role="listitem"><span class="label">Promises to the player</span><span class="track"><span class="fill" style="width:15.1%"></span></span><span class="n">288</span></div>
+        <div class="bar" role="listitem"><span class="label">Character, suspects</span><span class="track"><span class="fill" style="width:2.3%"></span></span><span class="n">43</span></div>
+        <h3>Rebuilt from state each turn</h3>
+        <div class="bar state" role="listitem"><span class="label">Recent conversation <small>(12 turns)</small></span><span class="track"><span class="fill" style="width:85.5%"></span></span><span class="n">1,632</span></div>
+        <div class="bar state" role="listitem"><span class="label">Known clues</span><span class="track"><span class="fill" style="width:66.5%"></span></span><span class="n">1,270</span></div>
+        <div class="bar state" role="listitem"><span class="label">Progress so far <small>(31 turns)</small></span><span class="track"><span class="fill" style="width:39.8%"></span></span><span class="n">759</span></div>
+        <div class="bar state" role="listitem"><span class="label">Recalled turns <small>(31 turns)</small></span><span class="track"><span class="fill" style="width:27.6%"></span></span><span class="n">526</span></div>
+        <div class="bar state" role="listitem"><span class="label">This moment</span><span class="track"><span class="fill" style="width:25.6%"></span></span><span class="n">488</span></div>
+        <div class="bar state" role="listitem"><span class="label">Player line and reminders</span><span class="track"><span class="fill" style="width:8.7%"></span></span><span class="n">167</span></div>
+      </div>
+      <p class="copy">“This moment” is where the decisions land: the current place, who is here, the discovery conditions of clues in reach, what was found this turn, and any hint. The text of a clue the player has not found is never in any section.</p>
+    </section>
+
+    <section class="section" id="method" aria-labelledby="method-title">
+      <h2 id="method-title">How it was measured</h2>
+      <div class="copy">
+        <p>Timings, counts and token figures come from one recorded scripted game: 44 player lines from a fixed script, played through the full server with every step logged. The keeper and recorder were gpt-6-luna, decisions ran on TypeSafe Jev 1.13, and memory used text-embedding-3-small. Times are measured on the server from receiving the line, so they leave out the network between the browser and the server.</p>
+        <p>Accuracy figures come from the project's decision test set: 764 player lines, each placed at a save snapshot where it applies, plus 290 out-of-character samples. The recorder figures come from a full test run of about 860 turns. Thresholds are the values in the code, each chosen from a measured spread of scores.</p>
+      </div>
+    </section>
+
+    <footer><a href="./">← Back to the showcase</a> · <a href="/#projects">All projects</a></footer>
+  </main>
+</body>
+</html>

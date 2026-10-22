@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 400" width="960" height="400" role="img" aria-labelledby="t d" font-family="system-ui, sans-serif">
   <title id="t">One turn of the game</title>
-  <desc id="d">The player's line goes to fast decisions and memory retrieval, then the engine applies the result and builds the keeper's view, the keeper model narrates, and a recorder model turns the narration back into engine state for the next turn.</desc>
+  <desc id="d">The player's line goes to fast decisions and memory retrieval, then the engine applies the decisions and builds the keeper's view, the keeper model narrates, and a recorder model proposes the remaining changes, which the engine validates before storing them for the next turn.</desc>
   <defs>
     <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#626864"/></marker>
   </defs>
@@ -43,14 +43,14 @@
   <g font-size="12" fill="#626864">
     <text x="36" y="94">Free text, one</text>
     <text x="36" y="110">sentence or a few</text>
-    <text x="226" y="94">Move? Which clues</text>
-    <text x="226" y="110">does this satisfy?</text>
-    <text x="226" y="126">An accusation?</text>
+    <text x="226" y="94">Out of character?</text>
+    <text x="226" y="110">Moving where? Then:</text>
+    <text x="226" y="126">clues found? evidence?</text>
     <text x="226" y="142">+ memory retrieval</text>
     <text x="606" y="94">Generative model</text>
-    <text x="606" y="110">writes the scene and</text>
-    <text x="606" y="126">asks to reveal clues;</text>
-    <text x="606" y="142">the engine checks</text>
+    <text x="606" y="110">writes the scene from</text>
+    <text x="606" y="126">what was decided;</text>
+    <text x="606" y="142">may call accuse</text>
     <text x="796" y="94">Narration and any</text>
     <text x="796" y="110">newly found clues</text>
     <text x="796" y="126">shown to the player</text>
@@ -60,9 +60,9 @@
   </g>
   <g font-size="12" fill="#e4e8e3">
     <text x="416" y="94">Applies the move,</text>
-    <text x="416" y="110">notes what is seen</text>
-    <text x="416" y="126">on arrival, builds the</text>
-    <text x="416" y="142">keeper's view</text>
+    <text x="416" y="110">reveals found clues,</text>
+    <text x="416" y="126">records evidence,</text>
+    <text x="416" y="142">builds keeper's view</text>
     <text x="226" y="328">Where the player is, who is where, items,</text>
     <text x="226" y="344">facts that changed, known clues, turn summaries</text>
   </g>

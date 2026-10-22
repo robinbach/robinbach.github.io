@@ -62,6 +62,17 @@
     figure a { display: block; }
     figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
     figcaption { color: var(--muted); font-size: .85rem; line-height: 1.6; margin-top: 8px; }
+
+    .challenges { display: grid; gap: 16px; margin-top: 18px; }
+    .challenge h3 { font-size: 1.15rem; margin: 0 0 12px; letter-spacing: -.02em; font-weight: 650; }
+    .challenge h3 span { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .1em; margin-right: 10px; }
+    .challenge dl { display: grid; grid-template-columns: 120px 1fr; gap: 10px 20px; margin: 0; line-height: 1.7; }
+    .challenge dt { color: var(--ink); font-weight: 650; font-size: .85rem; padding-top: 2px; }
+    .challenge dd { margin: 0; color: var(--muted); }
+    .challenge dd ul { margin: 0; padding-left: 18px; }
+    .challenge dd li + li { margin-top: 6px; }
+    .challenge .measured { color: var(--ink); }
+    @media (max-width: 600px) { .challenge dl { grid-template-columns: 1fr; gap: 2px; } .challenge dd { margin-bottom: 10px; } }
 </style>
 </head>
 <body>
@@ -73,7 +84,7 @@
       <h1 id="narrative-memory-title">Narrative Memory Engine</h1>
       <p class="positioning">A managed-memory interactive narrative system where a language model handles prose while an engine maintains story state, controlled context, and deterministic rules.</p>
       <p class="intro-copy">The player types what their investigator says or does. A model plays the keeper: it describes the scene and speaks for the people in the house. What it cannot do is leak the mystery or lose track of the world, because it is never shown the parts of the script the player has not earned, and everything that must stay consistent is recorded by the engine and handed back to it each turn.</p>
-      <nav class="actions" aria-label="Showcase sections"><a href="#play">Play</a><a href="#turn">One turn</a><a href="#state">State</a><a href="#authoring">Authoring</a></nav>
+      <nav class="actions" aria-label="Showcase sections"><a href="#play">Play</a><a href="#turn">One turn</a><a href="#state">State</a><a href="#challenges">Challenges</a><a href="#authoring">Authoring</a><a href="architecture.html">Architecture, layer by layer →</a></nav>
     </section>
     <section class="showcase-section" id="play" aria-labelledby="play-title">
       <h2 id="play-title">Free text in, a tracked investigation out</h2>
@@ -94,14 +105,15 @@
     </section>
     <section class="showcase-section" id="turn" aria-labelledby="turn-title">
       <h2 id="turn-title">One turn, three kinds of model call</h2>
-      <p class="showcase-copy">A turn is a short pipeline. Before the keeper writes anything, a decision model (TypeSafe Jev) answers closed questions about the player's line: is the player going to another room, which reachable clues could this action uncover, is this an accusation. It returns a choice and a probability, not prose, and it runs alongside memory retrieval. The engine applies a move only above a confidence threshold, notes what the player would notice on arrival, and then builds the keeper's view from current state.</p>
+      <p class="showcase-copy">A turn is a short pipeline. Before the keeper writes anything, a decision model (TypeSafe Jev) answers closed questions about the player's line, in three requests. Two go out at once, alongside memory retrieval: is this line out of character, and is the player setting off for another room. The third comes after the move: does the line meet the discovery condition of each clue now in reach, is evidence being shown to someone in the room, is a carried item handed over, is this an accusation. Each answer is a choice and a probability, not prose. The engine applies whatever clears its threshold: it moves the player, reveals the clues, records the evidence, and only then builds the keeper's view from current state.</p>
       <figure>
         <a href="images/turn-pipeline.svg" aria-label="Open full-size diagram: the pipeline for one turn, from the player's line to updated engine state.">
           <img src="images/turn-pipeline.svg" width="960" height="400" loading="lazy" decoding="async" alt="Diagram of one turn: player line, decisions and memory retrieval, engine, keeper model, reply, then a recorder model that feeds validated changes back into engine state.">
         </a>
         <figcaption>Decisions come first, narration second, bookkeeping last. Dark boxes are engine code; the others are model calls or text. Select the diagram to view it at full size.</figcaption>
       </figure>
-      <p class="showcase-copy">The keeper, a generative model from OpenAI, then writes the reply. It can ask to reveal a clue or to judge an accusation, and the engine checks each request against the script. After the reply is shown, a smaller recorder model reads the turn in the background and proposes what changed: where the player ended up, who moved, which items changed hands. The engine validates those proposals before storing them, and never lets them overwrite what the author fixed.</p>
+      <p class="showcase-copy">The keeper, a generative model from OpenAI, then writes the reply from what was decided. It has no tool for revealing clues. Its tools are an accusation, offered only on turns where the decision model judged the line to be one, and closing the case once a charge has been proven. After the reply is shown, a recorder model reads the turn in the background and proposes what else changed: who moved, which facts changed, where the reply contradicts the record. The engine validates those proposals before storing them, and never lets them overwrite what the decision model settled or what the author fixed.</p>
+      <p class="showcase-copy">In a recorded 44-turn game, the three decision requests asked about 16 questions per turn and the keeper started writing 348 ms after the server received the line (median). The whole reply took 3.2 s at the median and 4.4 s at the 90th percentile. <a href="architecture.html">The architecture page</a> follows a turn through every layer, with the numbers for each.</p>
     </section>
     <section class="showcase-section" id="state" aria-labelledby="state-title">
       <h2 id="state-title">The engine is the source of truth</h2>
@@ -112,13 +124,134 @@
         </a>
         <figcaption>The prompt is rebuilt from state every turn, so the model's own earlier wording cannot drift into fact. Select the diagram to view it at full size.</figcaption>
       </figure>
-      <p class="showcase-copy">Accusations follow the same rule. The engine tracks which evidence has been shown for each charge across turns, requires the accused to be in the room, and grades the result by evidence strength. When the proof falls short, the keeper writes the denial and points at the kind of evidence still missing. The clue list the player sees is the engine's record, with the place and turn each clue was found.</p>
+      <p class="showcase-copy">Accusations follow the same rule. The decision model judges which known clues the player is putting in front of the accused, and the engine adds them to that person's record across turns, requires the accused to be in the room, and grades each charge by the evidence shown. When the proof falls short, the keeper writes the denial and points at the kind of evidence still missing. The clue list the player sees is the engine's record, with the place and turn each clue was found.</p>
       <figure>
         <a href="images/03-clues.jpg" aria-label="Open full-size image: the known clues list in the case notes.">
           <img src="images/03-clues.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="The case notes scrolled to the known clues list, each clue with its text, location, and the turn it was found.">
         </a>
         <figcaption>Known clues early in the demo case. Only what the player has found is ever sent to the browser. Select the image to view it at full size.</figcaption>
       </figure>
+    </section>
+    <section class="showcase-section" id="challenges" aria-labelledby="challenges-title">
+      <h2 id="challenges-title">Seven problems and how they were solved</h2>
+      <p class="showcase-copy">Each of these came up in play or testing, and each solution was kept only after replays showed it helped. The numbers come from the project's own test suites and from a recorded 44-turn scripted game; the <a href="architecture.html">architecture page</a> gives the per-layer measurements.</p>
+      <div class="challenges">
+        <article class="challenge" aria-labelledby="ch1">
+          <h3 id="ch1"><span>01</span>Soft narration, hard state</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>The keeper writes prose. The game needs facts: which room the player is in, what they are holding, what they know. When the two drift apart, the next turn is built on a world that is not there.</dd>
+            <dt>Why it is hard</dt>
+            <dd>The two sides fail in opposite ways. Narration can contradict the record without noticing it. A record that blocks narration breaks the scene. And the player's own words, such as “you got that wrong, I have the key”, belong to the story; they are not corrections to it.</dd>
+            <dt>Approach</dt>
+            <dd>Decide before the keeper writes, record after it writes, and settle disagreements inside the story.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>Before the keeper writes, the decision model settles what changes this turn: a move, discoveries, evidence shown, items handed over. The engine applies those changes, and the keeper is told what happened.</li>
+              <li>After the reply, a recorder model proposes everything else: who moved, which facts changed. The engine accepts a proposal only if it agrees with what was already settled. A location change must match the move decision, and objects the author fixed cannot be rewritten.</li>
+              <li>When the reply and the record disagree, the record stands. The keeper gets a note on the next turn and resolves the difference in the story, without apologising or taking anything back.</li>
+              <li>What the player types is the character's reaction. It never changes what has happened, and consistency checks compare the reply against state, never against the player's words.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">Limiting conflict reports to items, people, known clues and recorded facts cut false reports from 53 to 27 out of 78 in a full test run, and 11 of the 12 real conflicts were still reported.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch2">
+          <h3 id="ch2"><span>02</span>Reading intent in free text</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>“Which way is the kitchen?”, “I think back to the kitchen”, “if she's in the kitchen I'll ask her”: all three mention a room, and in none of them does the player go there. A wrong move puts the player somewhere they never chose to be.</dd>
+            <dt>Why it is hard</dt>
+            <dd>The narrating model is a poor parser. Asked to move the player itself, it moves too readily, and its mistakes land in the record as facts.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>One closed question: where is the player setting off for this turn? The answer is a choice with a probability. The engine moves the player at 0.6 or above, unless “staying” scores 0.8 or more.</li>
+              <li>When a line names several places, a second round asks for each place whether the player sets off for it this turn. Places at 0.7 or above pass. The player goes to the first stop and the keeper is told about the rest.</li>
+              <li>For each person present, the same request asks whether they come along. Companions follow for a set number of turns and then go back to where they usually are.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">On the decision test set: 9 wrong moves in 288 lines that should not move the player, and 2 misses in 81 lines that should.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch3">
+          <h3 id="ch3"><span>03</span>Keeping the secret</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>A narrator that knows the solution will eventually give it away, whether it is pushed, tricked or just trying to help.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>The keeper's prompt holds the full text of clues already found, and only the discovery conditions of clues in reach right now. The text of an undiscovered clue is never sent.</li>
+              <li>The decision model sees discovery conditions, never clue text. A clue that scores 0.35 or more is revealed by the engine before the keeper writes.</li>
+              <li>The keeper has no tool for revealing clues. An earlier version let it propose reveals for the engine to veto. Vetoed clues came back the next turn, so the check now runs first.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">1 clue wrongly held back out of 50 that should be found, and 3 let through out of 183 that should not.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch4">
+          <h3 id="ch4"><span>04</span>Lines that step outside the story</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Players ask for hints, ask whether the keeper is an AI, try to pull out the prompt, ask for an essay, or write another character's reaction for them (“he panicked and confessed everything”).</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>Four yes/no questions go out with the move decision, so they add no waiting time.</li>
+              <li>A hint request gets an out-of-game reply that offers a hint. Prompt probes and unrelated requests get a fixed reply. None of these counts as a turn or touches game state.</li>
+              <li>A line that writes another character's reaction counts as a turn, but nothing in it takes effect: no move, no discovery, no accusation.</li>
+              <li>Thresholds of 0.8 to 0.9 were set from measured separation. Real cases scored 0.97 or more, while normal play peaked at 0.81.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">0 errors on 764 in-game lines and 290 out-of-character samples.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch5">
+          <h3 id="ch5"><span>05</span>Accusations the player actually made</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>In early versions the keeper sometimes accused on the player's behalf and closed the case. In the middle of a confrontation, it could read a bare “go on” as an accusation.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>The accusation tool is offered only when the line scores 0.2 or more as an accusation and 0.5 or more as naming someone.</li>
+              <li>Which evidence was shown is judged by the decision model, one known clue at a time, and added up per person across turns. The keeper names only the suspect.</li>
+              <li>Each charge has a few parts, such as motive and act. With all parts proven, the suspect confesses. With most of them, they admit part of it, once. Otherwise they deny it. The accused must be in the room, and an accusation with no evidence gets a plain denial that names no charge.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">The 44-turn scripted game reaches its ending on the last turn, as scripted, in repeated runs.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch6">
+          <h3 id="ch6"><span>06</span>More checks without a slower turn</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>Every check above could be another model call. The turn still has to come back within a few seconds, and the prompt has to stay short enough for the model to follow.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>All closed questions go to a fast decision model, in three requests per turn. The first two run in parallel with memory retrieval.</li>
+              <li>The number of questions follows what is in reach, not the size of the script. The case has 28 clues, and no turn of the recorded game asked about more than 5.</li>
+              <li>Standing rules have a length limit that a unit test enforces. Rules for rare situations, such as pulling out a weapon the player does not carry, are triggered by a question inside the existing request and added only on the turns that need them.</li>
+              <li>The fixed part of the prompt comes first, so it can be cached.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">348 ms from receiving the line to the keeper starting to write, and 3.2 s for the whole turn (medians). 2,850 of about 7,160 input tokens are served from cache.</dd>
+          </dl>
+        </article>
+        <article class="challenge" aria-labelledby="ch7">
+          <h3 id="ch7"><span>07</span>Knowing that a change helped</h3>
+          <dl>
+            <dt>Problem</dt>
+            <dd>With models in the loop, a change that fixes one line can break three others, and a few playthroughs are not enough to tell.</dd>
+            <dt>Design</dt>
+            <dd><ul>
+              <li>Every step of every turn can be logged with its time, its inputs and the model's answer.</li>
+              <li>Six save snapshots are taken from one scripted game. A test matrix replays single lines at those snapshots, so a line about handing over an item is tested at a point where the player actually holds it.</li>
+              <li>A fixed regression set of 27 lines in 40 cells, plus a decision test set of 764 lines and 290 out-of-character samples that runs in about 35 seconds.</li>
+              <li>Automatic checks on saved games. Tests come in three sizes, picked by what the change touches.</li>
+            </ul></dd>
+            <dt>Measured</dt>
+            <dd class="measured">A medium run, about 135 real turns, takes around 15 minutes. The last full run covered about 860 turns in 55 minutes and found no regressions.</dd>
+          </dl>
+        </article>
+      </div>
     </section>
     <section class="showcase-section" id="authoring" aria-labelledby="authoring-title">
       <h2 id="authoring-title">Cases are data</h2>
@@ -131,7 +264,7 @@
         <ul class="details">
           <li><strong>Fast model for judgment, slow model for prose.</strong> Whether a line means “go to the kitchen” is a closed question with a right answer; how the kitchen feels at dusk is not. The first goes to a decision model that answers quickly with a probability the engine can threshold. The second goes to a generative model. The cost is a second dependency and two kinds of error to reconcile. The gain is that the slow model is never asked to be a parser.</li>
           <li><strong>State in the engine, not in the conversation.</strong> A long chat is a poor database: the model's last paragraph outweighs a fact from twenty turns ago. So anything that must stay true is recorded as engine state and handed back each turn. That costs a bookkeeping pass per turn and a schema for every kind of fact. It buys a world that does not drift.</li>
-          <li><strong>The keeper is free; the record is strict.</strong> The engine does not block the narrator in the middle of a scene. The model decides what happens, the engine writes down the result, and where the two disagree they are reconciled after the reply: narration wins on what just happened, the script wins on what the author fixed. This keeps play fluid and accepts that a correction may arrive a turn late.</li>
+          <li><strong>The keeper is free; the record is strict.</strong> The engine does not block the narrator in the middle of a scene. What must be settled is settled before the model writes, the rest is recorded after it writes, and where the reply and the record disagree, the record stands and the next turn resolves the difference inside the story. This keeps play fluid and accepts that a correction may arrive a turn late.</li>
           <li><strong>Division of labor keeps the prompt light.</strong> Because decisions run first and the engine filters, the keeper's prompt holds only what this turn needs: the clues in reach, the people in the room, the rule for the situation at hand. A shorter prompt is cheaper, and it also leaves the model fewer instructions to weigh against each other.</li>
           <li><strong>Authored structure under free play.</strong> Players can type anything, but a mystery needs a fixed truth. Clues, conditions, and charges are authored; the wording, pacing, and characters' voices are improvised. The seam is the discovery condition, written in plain language and judged against the player's line, with more than one independent route to each thing that must be proven.</li>
           <li><strong>Evidence over impressions.</strong> With models in the loop, a change that fixes one line can break three others. Every turn can be logged in full and replayed offline, so a rule is kept only if recorded games get better.</li>
