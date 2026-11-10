@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WCGHR8JG5T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WCGHR8JG5T');
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="s1scope by Jianing Wang: an open-source local viewer for logged decision-model calls, showing per-question probability distributions, thresholds, calibration, and run-to-run changes.">
+  <meta name="theme-color" content="#f5f5f2">
+  <title>s1scope — Jianing Wang</title>
+  <style>
+    :root {
+      --accent: #3c5043;
+      --ink: #252927;
+      --line: #d1d4d0;
+      --muted: #626864;
+      --page: #f5f5f2;
+      --surface: #eceeea;
+      font-family: system-ui, sans-serif;
+      font-size: 14px;
+      color: var(--ink);
+      background: var(--page);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    section[id] { scroll-margin-top: 24px; }
+    main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
+    header { border-bottom: 1px solid var(--line); padding-bottom: 16px; font-weight: 650; letter-spacing: -.03em; }
+    .intro { padding: 36px 0 38px; max-width: 760px; }
+    .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
+    h1 { font-size: clamp(2.05rem, 5vw, 3.6rem); line-height: 1.06; letter-spacing: -.055em; margin: 8px 0 12px; font-weight: 550; }
+    .positioning { font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.5; max-width: 680px; }
+    .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 640px; }
+    article { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 32px); }
+    .project-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px 20px; align-items: center; }
+    .tag { border: 1px solid var(--line); border-radius: 30px; padding: 6px 12px; font-size: .75rem; white-space: nowrap; }
+    h2 { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
+    h3 { font-size: clamp(1.07rem, 2.2vw, 1.33rem); margin: 0 0 5px; letter-spacing: -.025em; font-weight: 600; }
+    article p { color: var(--muted); line-height: 1.75; }
+    article p:last-child { margin-bottom: 0; }
+    .section { margin-top: 40px; }
+    .stack { display: grid; gap: 14px; }
+    .role { margin-top: 0; font-size: .95rem; }
+    .details { padding-left: 20px; margin-bottom: 0; color: var(--muted); line-height: 1.75; }
+    .details li + li { margin-top: 12px; }
+    strong { color: var(--ink); font-weight: 650; }
+    .technical-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 0; }
+    .technical-grid > div { border-top: 1px solid var(--line); padding-top: 14px; }
+    dt { font-weight: 650; }
+    dd { margin: 6px 0 0; color: var(--muted); line-height: 1.75; }
+    .narrative { max-width: 720px; font-size: 1rem; color: var(--muted); line-height: 1.8; }
+    .project-title { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin-top: 16px; letter-spacing: -.04em; font-weight: 550; }
+    .project-copy { max-width: 560px; }
+    .project-note { font-size: .85rem; }
+    #projects > article + article { margin-top: 20px; }
+    .project-preview { display: block; margin-top: 24px; }
+    .project-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
+    a { color: inherit; text-underline-offset: 4px; }
+    .button { display: inline-flex; gap: 18px; align-items: center; background: var(--accent); color: #fff; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; }
+    .button:hover { background: var(--ink); }
+    .button.outline { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+    .button.outline:hover { background: var(--accent); color: #fff; }
+    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+    .secondary { font-size: .9rem; }
+    .skip-link { position: absolute; left: 24px; top: 12px; padding: 12px 16px; background: var(--surface); transform: translateY(-200%); }
+    .skip-link:focus { transform: translateY(0); }
+    footer { margin-top: 30px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
+    @media (max-width: 600px) { .technical-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 480px) { main { padding-top: 20px; } .intro { padding: 26px 0 30px; } .project-top { align-items: flex-start; } .section { margin-top: 34px; } }
+
+    .showcase-nav { display: flex; flex-wrap: wrap; gap: 12px 24px; justify-content: space-between; align-items: center; }
+    .showcase-nav a { font-size: .9rem; font-weight: 400; letter-spacing: normal; }
+    .showcase-intro { padding-bottom: 20px; }
+    .showcase-section { margin-top: 32px; }
+    .showcase-copy { max-width: 720px; color: var(--muted); line-height: 1.8; }
+    figure { margin: 16px 0 0; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
+    code { font: .92em ui-monospace, monospace; }
+    .codeblock { margin: 16px 0 0; padding: 14px 16px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); overflow-x: auto; font: .85rem/1.6 ui-monospace, monospace; color: var(--ink); }
+    figcaption { color: var(--muted); font-size: .85rem; line-height: 1.6; margin-top: 8px; }
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <main id="main-content">
+    <header class="showcase-nav"><span>s1scope</span><a href="/#projects">← All projects</a></header>
+    <section class="intro showcase-intro" aria-labelledby="s1scope-title">
+      <p class="eyebrow">Project showcase / Open source, MIT</p>
+      <h1 id="s1scope-title">s1scope</h1>
+      <p class="positioning">A local viewer for logged decision-model calls: per-question probability distributions, thresholds, calibration, and run-to-run changes.</p>
+      <p class="intro-copy">Decision models answer typed questions with probabilities instead of text. Running one in production means choosing a threshold for each question and knowing what that threshold costs: how many wrong answers get through, how many right ones get stopped, and whether the probabilities mean what they say. s1scope (System One Scope) reads calls you have already logged against the System One API and answers those questions per question.</p>
+      <div class="actions">
+        <a class="button" href="https://github.com/robinbach/s1scope">Source on GitHub <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="actions" aria-label="Showcase sections"><a href="#questions">Per question</a><a href="#versions">Question versions</a><a href="#compare">Compare runs</a><a href="#records">Records</a><a href="#logging">Logging</a></nav>
+    </section>
+    <section class="showcase-section" id="questions" aria-labelledby="questions-title">
+      <h2 id="questions-title">One question at a time</h2>
+      <p class="showcase-copy">Every answer becomes a row: run, sample, question, probability, and the expected answer when a label exists. Picking a question shows the distribution of <code>p</code> colored by the expected answer, with the threshold drawn across it. False accepts, false rejects, precision, recall, Brier score, and expected calibration error update as the threshold moves. Any view can be split by run, model, backend, question version, or a tag recorded with the call.</p>
+      <figure>
+        <a href="images/01-overview.jpg" aria-label="Open full-size image: s1scope overview for a yes/no question, split by language, with error counts and the distribution of p for each language.">
+          <img src="images/01-overview.jpg" width="2720" height="1720" loading="lazy" decoding="async" alt="s1scope overview for a yes/no question, split by language, with error counts and the distribution of p for each language.">
+        </a>
+        <figcaption>Split by language, the German tickets show a large share of confident wrong answers that the pooled numbers hide. Select the image to view it at full size.</figcaption>
+      </figure>
+      <p class="showcase-copy">The reliability curve compares predicted <code>p</code> with the observed rate, and the threshold sweep shows both error counts at every threshold from 0 to 1, so the cost of moving a threshold is visible before it ships.</p>
+      <figure>
+        <a href="images/02-calibration.jpg" aria-label="Open full-size image: Reliability curves and threshold sweeps for each language.">
+          <img src="images/02-calibration.jpg" width="2040" height="920" loading="lazy" decoding="async" alt="Reliability curves and threshold sweeps for each language.">
+        </a>
+        <figcaption>Calibration and the threshold sweep, split the same way. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="versions" aria-labelledby="versions-title">
+      <h2 id="versions-title">Question versions</h2>
+      <p class="showcase-copy">Question instructions change over time, and results from different wordings should not be pooled by accident. s1scope fingerprints the question exactly as it was sent, lists each version with its answer count and the runs that used it, and can split the charts by version.</p>
+      <figure>
+        <a href="images/03-versions.jpg" aria-label="Open full-size image: A question with two recorded versions, the instructions as sent, and the distribution of p split by version.">
+          <img src="images/03-versions.jpg" width="2720" height="2120" loading="lazy" decoding="async" alt="A question with two recorded versions, the instructions as sent, and the distribution of p split by version.">
+        </a>
+        <figcaption>Two wordings of the same question. The newer one separates the expected answers more cleanly. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="compare" aria-labelledby="compare-title">
+      <h2 id="compare-title">Comparing two runs</h2>
+      <p class="showcase-copy">The Compare view lines up two slices of the same question sample by sample: two runs, two models, or two question versions. It counts samples that became wrong and samples that became right at the current threshold, plots <code>p</code> in A against <code>p</code> in B, and lists the samples that moved the most. Clicking a point opens the record behind it.</p>
+      <figure>
+        <a href="images/04-compare.jpg" aria-label="Open full-size image: Compare view showing two nightly runs, counts of samples that got worse or better, and a scatter of p in A against p in B.">
+          <img src="images/04-compare.jpg" width="2720" height="2200" loading="lazy" decoding="async" alt="Compare view showing two nightly runs, counts of samples that got worse or better, and a scatter of p in A against p in B.">
+        </a>
+        <figcaption>A prompt change between two nightly runs: 12 samples fixed, 1 broken, total errors from 20 to 9. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="records" aria-labelledby="records-title">
+      <h2 id="records-title">Every number traces back to a call</h2>
+      <p class="showcase-copy">Error lists, near-threshold lists, and comparison tables all open the underlying record: run, sample, model as resolved by the server, latency, tags, the question as sent, the state the model saw, every answer in the call, and the raw request and response.</p>
+      <figure>
+        <a href="images/05-record.jpg" aria-label="Open full-size image: Record panel showing run metadata, the answer, the question as sent, and the state sent to the model.">
+          <img src="images/05-record.jpg" width="2720" height="1720" loading="lazy" decoding="async" alt="Record panel showing run metadata, the answer, the question as sent, and the state sent to the model.">
+        </a>
+        <figcaption>The record panel for one wrong answer. Select the image to view it at full size.</figcaption>
+      </figure>
+    </section>
+    <section class="showcase-section" id="logging" aria-labelledby="logging-title">
+      <h2 id="logging-title">Logging and running it</h2>
+      <p class="showcase-copy">s1scope does not run evaluations. Calls are logged as JSONL, one call per line, by any backend that speaks <code>POST /v1/systemone</code>, such as TypeSafe Jev, Ollama’s local decision models, or OpenRouter. A small <code>fetch</code> wrapper records calls from Node and never writes the <code>Authorization</code> header. Labels can sit in the same files or separate ones.</p>
+      <pre class="codeblock"><code>npm install
+npm run build
+npx tsx scripts/make-demo.ts
+node dist/src/cli.js view examples/demo
+# open http://127.0.0.1:4747/</code></pre>
+    </section>
+    <section class="showcase-section" aria-labelledby="design-title">
+      <h2 id="design-title">Engineering choices</h2>
+      <article aria-label="s1scope implementation highlights">
+        <ul class="details">
+          <li><strong>Local and read-only.</strong> The viewer serves on 127.0.0.1 and reads log folders in place. Logs can hold private prompts and state, so nothing is uploaded.</li>
+          <li><strong>Thresholds as first-class settings.</strong> A record can carry the threshold its application uses, and every count is computed at a threshold you can move.</li>
+          <li><strong>Samples line up across runs.</strong> A shared sample id makes run-to-run comparison a join, not a guess.</li>
+          <li><strong>A plain file format.</strong> A small, documented JSONL format that any language can write.</li>
+        </ul>
+      </article>
+      <p class="project-note showcase-copy">Built to tune the decision layer of the <a href="/icoc/">Narrative Memory Engine</a>. Screenshots show synthetic support-ticket data; no real prompts or labels appear.</p>
+    </section>
+    <footer><a href="/#projects">← Back to projects</a></footer>
+  </main>
+</body>
+</html>
