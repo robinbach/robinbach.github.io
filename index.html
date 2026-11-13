@@ -28,7 +28,7 @@
         <p class="label">Backend / Infrastructure / AI Systems</p>
         <h1>Jianing Wang</h1>
         <p class="positioning">Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms.</p>
-        <p class="intro-copy">I build reliable systems at scale. My work spans infrastructure and platforms at Uber and Yahoo, and recent independent work on AI applications and agents.</p>
+        <p class="intro-copy">Eight years of building and running shared infrastructure at Uber and Yahoo: a Presto query platform, freight tracking, and certificate lifecycle management. Since 2025 I have been building LLM applications with the same habits: explicit state, measured latency, and tests before every change.</p>
       </div>
       <dl class="meta" aria-label="At a glance">
         <div><dt>Now</dt><dd>Independent AI development</dd></div>
@@ -39,7 +39,7 @@
     </header>
 
     <dl class="figures" aria-label="Selected results">
-      <div><dt>~20<small>PB / month</small></dt><dd>of remote reads avoided by local SSD caching<span>Uber · Presto</span></dd></div>
+      <div><dt>~10<small>PB / day</small></dt><dd>of remote reads avoided by local SSD caching<span>Uber · Presto</span></dd></div>
       <div><dt>~$2M<small>/ year</small></dt><dd>estimated infrastructure savings from connector cloud routing<span>Uber · Presto</span></dd></div>
       <div><dt>~92<small>%</small></dt><dd>shipment tracking rate reached by Project Lasso<span>Uber Freight</span></dd></div>
       <div><dt>95<small>% +</small></dt><dd>of cloud instances served by the TLS certificate lifecycle service<span>Yahoo</span></dd></div>
@@ -51,28 +51,29 @@
         <article class="entry" aria-labelledby="independent-title">
           <header class="entry-head">
             <h3 id="independent-title">Independent AI Developer</h3>
-            <p class="role"><time datetime="2025-05">May 2025</time> – Present</p>
+            <p class="role">2025 – Present</p>
           </header>
-          <p>I build and operate AI applications and services, drawing on my background in backend infrastructure and distributed systems. My work spans independent products and community collaborations, with cloud-hosted services used daily and actively maintained.</p>
+          <p>I design, build, and operate LLM applications end to end, across my own products and community collaborations, with cloud-hosted services in daily use. Most examples below come from the <a href="/icoc/">Narrative Memory Engine</a>.</p>
           <ul class="details">
-            <li><strong>AI-native services and end-to-end ownership.</strong> Built and operated services for document processing, text processing, and workflow automation, taking them from initial design through deployment and ongoing maintenance. Integrated model APIs, retrieval, and tool execution into workflows that produce usable, structured results.</li>
-            <li><strong>Decision APIs and low-latency workflows.</strong> Integrated decision APIs alongside traditional LLM APIs across several services, substantially improving latency and responsiveness. Compared their speed and capability tradeoffs to determine where lightweight decisions were sufficient and where tasks needed more capable generative models.</li>
-            <li><strong>Application-specific context and memory management.</strong> Designed how applications retrieve, retain, and compress information: which sources RAG should search, how much recent conversation to preserve, and what belongs in longer-term memory. Made explicit tradeoffs between details that must remain exact, information that can be summarized, and context that can be omitted, balancing task quality, token usage, and latency.</li>
-            <li><strong>Agent workflows and harnesses.</strong> Developed agent workflows with tool orchestration, MCP integrations, structured outputs, and failure handling. Combined retrieval and context management to provide relevant information at each step and coordinate model decisions with downstream tools and application code.</li>
-            <li><strong>Model evaluation and operating-cost tradeoffs.</strong> Evaluated models through hands-on use, human review, and LLM-based evaluation across quality, latency, reliability, and cost. Personally funded substantial API usage to test models in real workflows, using those findings to guide model selection and routing as application needs evolved.</li>
+            <li><strong>Judgment and generation on separate models.</strong> Closed questions go to a fast decision model that returns a probability; only prose goes to a generative model. The decisions run in parallel with retrieval, so narration starts about <strong>350 ms</strong> after a request arrives and a full turn takes about <strong>3 s</strong>.</li>
+            <li><strong>State held by the application, not the conversation.</strong> Anything that must stay true lives in engine state, and the prompt is rebuilt from it each turn. Text the user has not unlocked is never sent to the model, so a leak is ruled out by construction instead of by instruction.</li>
+            <li><strong>Thresholds chosen from data, changes checked by replay.</strong> Each decision has its own threshold, set from measured separation on a labelled test set. A change ships only if replayed games improve. The analysis tooling is open source as <a href="/s1scope/">s1scope</a>.</li>
+            <li><strong>An expert-review workflow in daily institutional use.</strong> Sole developer of a patented system that combines image processing, LLM classification, and structured data population, replacing manual inspection and form filling spread across several tools.</li>
+            <li><strong>Agents and model selection in other services.</strong> Built document and workflow automation with tool orchestration, MCP integrations, structured outputs, and failure handling. Chose and routed models by comparing quality, latency, reliability, and cost in real workflows.</li>
           </ul>
         </article>
         <article class="entry" aria-labelledby="uber-title">
           <header class="entry-head">
             <h3 id="uber-title">Uber Technologies</h3>
-            <p class="role">Storage, Search &amp; Data</p>
+            <p class="role">Software Engineer, Storage, Search &amp; Data · 2023 – 2025</p>
           </header>
-          <p>Owned initiatives across Uber’s Presto-based distributed SQL and data query platform: routing, quotas, caching, notifications, connector and version upgrades, upstream engine merges, and on-call operations.</p>
+          <p>Owned initiatives across Uber’s Presto-based distributed SQL and data query platform, each from design through production rollout, alongside on-call, version upgrades, and upstream engine merges.</p>
           <p class="secondary"><a href="https://www.ibm.com/think/news/uber-presto">Further reading: Uber’s Presto platform — IBM</a></p>
           <ul class="details">
-            <li><strong>Connector Cloud Routing.</strong> Led work reducing network load by about 10%, supporting an estimated <strong>~$2M in annual infrastructure savings</strong>.</li>
-            <li><strong>User Quota.</strong> Designed quota management using historical workload patterns and service tiers to improve fairness across shared clusters.</li>
-            <li><strong>Local SSD Cache.</strong> Led Alluxio and targeted Parquet metadata/footer caching work, avoiding <strong>~20 PB of remote reads per month</strong> at an initial ~15% average cache hit rate.
+            <li><strong>Connector Cloud Routing.</strong> Led the design and implementation of regional routing controls for Presto traffic across cloud and on-prem regions. Cluster network load fell by about 10%, supporting an estimated <strong>~$2M in annual infrastructure savings</strong>.</li>
+            <li><strong>User Quota.</strong> Owned the design, implementation, cross-team coordination, and user communication for per-user CPU quotas on shared clusters. Limits came from historical workload patterns and service tiers, with alternatives and warnings in place before enforcement. Usage by the heaviest users fell <strong>about 40%</strong> in the first month.</li>
+            <li><strong>Notification Service.</strong> Designed and built the user-facing notification service behind quota warnings, with cooldowns and rate limiting.</li>
+            <li><strong>Local SSD Cache.</strong> Led an Alluxio-based local disk cache for Presto with targeted Parquet metadata and footer caching, working with client teams and Alluxio engineers through rollout. It avoided <strong>~10 PB of remote reads per day</strong>.
               <p class="secondary"><a href="https://prestodb.io/blog/2025/08/08/unlocking-petabyte-scale-performance-ubers-journey-with-alluxio-distributed-cache/">Further reading: Uber’s Alluxio distributed cache — Presto</a></p>
             </li>
           </ul>
@@ -85,19 +86,25 @@
         <article class="entry" aria-labelledby="freight-title">
           <header class="entry-head">
             <h3 id="freight-title">Uber Freight</h3>
-            <p class="role">Tracking Platform</p>
+            <p class="role">Software Engineer, Tracking Platform · 2019 – 2023</p>
           </header>
-          <p>Built a freight tracking intelligence platform spanning data ingestion, load matching, ETA prediction, GPS processing, and tracking algorithms.</p>
-          <p>Project Lasso achieved an approximately <strong>92% tracking rate</strong>, among the highest reported across major freight tracking platforms.</p>
+          <p>Designed and built the freight tracking platform: location ingestion, load matching, geofences, ETA prediction, and automated load status.</p>
           <p class="secondary"><a href="https://www.uberfreight.com/en-US/blog/estimating-shipment-arrival-ai">Further reading: Project Lasso and shipment arrival predictions — Uber Freight</a></p>
+          <ul class="details">
+            <li><strong>Project Lasso.</strong> Led engineering from design through pilot deployments, working with data scientists, product managers, and operations. Tracking rate reached approximately <strong>92%</strong>, among the highest reported across major freight tracking platforms.</li>
+            <li><strong>ETA service.</strong> Led a centralized freight ETA service and GPS sampling pipeline that integrated a new machine-learning model and multiple ETA providers.</li>
+            <li><strong>Ingestion and matching.</strong> Improved location ingestion, load matching, and Kafka throughput, and led a third-party carrier integration from API design through operational support.</li>
+          </ul>
         </article>
         <article class="entry" aria-labelledby="yahoo-title">
           <header class="entry-head">
             <h3 id="yahoo-title">Yahoo</h3>
-            <p class="role">Internal Platforms</p>
+            <p class="role">Software Engineer, Internal Platforms · 2017 – 2019</p>
           </header>
-          <p>Designed and owned a TLS certificate lifecycle management service supporting <strong>more than 95% of Yahoo cloud instances</strong>.</p>
-          <p>Built a Java push notification gateway using HTTP/2 multiplexing and multithreading, serving <strong>~12K QPS</strong>.</p>
+          <ul class="details">
+            <li><strong>Certificate lifecycle management.</strong> Designed and owned a service handling TLS certificate issuance, renewal, and expiration across <strong>more than 95% of Yahoo cloud instances</strong>.</li>
+            <li><strong>Push notification gateway.</strong> Built a Java gateway using HTTP/2 multiplexing and multithreading, serving <strong>~12K QPS</strong>.</li>
+          </ul>
         </article>
       </div>
     </section>
@@ -108,13 +115,16 @@
         <div><dt>Distributed Systems &amp; Data</dt><dd>Presto, Hadoop/HDFS, Kafka, Redis, Alluxio</dd></div>
         <div><dt>Infrastructure</dt><dd>Docker, Kubernetes, AWS, Linux</dd></div>
         <div><dt>Languages</dt><dd>Java, Go, Python, C++, SQL</dd></div>
-        <div><dt>AI Systems</dt><dd>LLM APIs, agent harnesses, MCP, model routing, evaluation pipelines</dd></div>
+        <div><dt>AI Systems</dt><dd>Decision models and LLM APIs, threshold calibration, replay-based evaluation, prompt caching, agent harnesses, MCP, model routing</dd></div>
       </dl>
     </section>
 
-    <section class="band" id="about" aria-labelledby="about-title">
-      <h2 id="about-title">A through line</h2>
-      <p class="narrative">My work has moved from platform and security foundations at Yahoo to user-facing, ML-driven systems at Uber Freight, then large-scale data infrastructure at Uber. Today, I bring that experience to AI-native systems and agents. The consistent thread is an interest in technically deep systems that make a practical difference for the people using them.</p>
+    <section class="band" id="education" aria-labelledby="education-title">
+      <h2 id="education-title">Education</h2>
+      <dl class="areas">
+        <div><dt>University of Michigan</dt><dd>M.S.E., Computer Science and Engineering · 2016<br>B.S.E., Computer Science · 2015</dd></div>
+        <div><dt>Shanghai Jiao Tong University</dt><dd>B.S.E., Mechanical Engineering · 2015</dd></div>
+      </dl>
     </section>
 
     <section class="band" id="projects" aria-labelledby="projects-title">
@@ -127,8 +137,8 @@
           <div>
             <p class="label">Decision-model evaluation · Open source · MIT</p>
             <h3 id="s1scope-title"><a href="/s1scope/">s1scope</a></h3>
-            <p>A local viewer for logged decision-model calls, showing per-question probability distributions, thresholds, calibration, and run-to-run changes.</p>
-            <p class="project-note">Reads calls already logged against the System One API and shows what each threshold costs.</p>
+            <p>A decision model answers with a probability, so every question needs a threshold and someone has to know what that threshold costs. s1scope reads calls already logged and shows, per question, the distribution, the calibration, and the error counts at any threshold, then compares two runs sample by sample.</p>
+            <p class="project-note">Built to tune the Narrative Memory Engine. Local and read-only, so logged prompts never leave the machine.</p>
             <p class="links">
               <a href="/s1scope/">View showcase <span aria-hidden="true">→</span></a>
               <a href="https://github.com/robinbach/s1scope">Source on GitHub <span aria-hidden="true">↗</span></a>
@@ -142,8 +152,8 @@
           <div>
             <p class="label">Managed-memory interactive narratives · Interactive prototype</p>
             <h3 id="narrative-memory-title"><a href="/icoc/">Narrative Memory Engine</a></h3>
-            <p>A managed-memory narrative engine that coordinates model narration with persistent story state, controlled context, and deterministic rules.</p>
-            <p class="project-note">A fast decision model interprets actions, a generative model narrates, and the engine maintains continuity.</p>
+            <p>A mystery game in which a model narrates but cannot leak the plot or lose track of the world. Undiscovered clue text is never in the prompt, world state lives in the engine, and a decision model settles what happens before the narrator writes.</p>
+            <p class="project-note">Narration starts about 350 ms after the request, with changes checked by replaying recorded games.</p>
             <p class="links">
               <a href="/icoc/">View showcase <span aria-hidden="true">→</span></a>
               <a href="/icoc/architecture.html">View architecture <span aria-hidden="true">→</span></a>
@@ -157,8 +167,8 @@
           <div>
             <p class="label">LLM-assisted retrieval &amp; ranking · Closed-source proof of concept</p>
             <h3 id="jag-title"><a href="/jag/">Career Intelligence Workbench</a></h3>
-            <p>A transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.</p>
-            <p class="project-note">Local-first retrieval and ranking. Application decisions stay with the user.</p>
+            <p>Ranks current job postings against one candidate profile. Deterministic eligibility rules run before any model call, the model scores four fit dimensions that are combined with fixed weights, and fetching, filtering, and ranking are separate, inspectable steps.</p>
+            <p class="project-note">Each company's fetch is checkpointed, so a failed source never discards a good snapshot. Rankings are reused unless re-ranking is requested.</p>
             <p class="links"><a href="/jag/">View showcase <span aria-hidden="true">→</span></a></p>
           </div>
         </article>

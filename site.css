@@ -272,3 +272,4 @@ code { font: .9em var(--mono); color: var(--ink); }
 .challenge dd li + li { margin-top: 6px; }
 .challenge .measured { color: var(--ink); font-weight: 500; }
 @media (max-width: 620px) { .challenge dl { grid-template-columns: 1fr; gap: 2px; } .challenge dd { margin-bottom: 10px; } }
+
