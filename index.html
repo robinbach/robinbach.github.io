@@ -12,99 +12,47 @@
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Jianing Wang — Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms. Experience at Uber and Yahoo; independent AI development.">
-  <meta name="theme-color" content="#f5f5f2">
+  <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>Jianing Wang — Software Engineer</title>
-  <style>
-    :root {
-      --accent: #3c5043;
-      --ink: #252927;
-      --line: #d1d4d0;
-      --muted: #626864;
-      --page: #f5f5f2;
-      --surface: #eceeea;
-      font-family: system-ui, sans-serif;
-      font-size: 14px;
-      color: var(--ink);
-      background: var(--page);
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; }
-    section[id] { scroll-margin-top: 24px; }
-    main { max-width: 960px; margin: auto; padding: 32px 20px 24px; }
-    .intro { padding: 30px 0 38px; max-width: 760px; }
-    .eyebrow { color: var(--muted); font: 600 .75rem ui-monospace, monospace; letter-spacing: .14em; text-transform: uppercase; }
-    h1 { font-size: clamp(2.05rem, 4vw, 2.7rem); line-height: 1.08; letter-spacing: -.045em; margin: 8px 0 12px; font-weight: 550; }
-    .positioning { font-size: clamp(1rem, 1.8vw, 1.12rem); line-height: 1.55; max-width: 680px; }
-    .intro-copy { font-size: 1rem; line-height: 1.7; color: var(--muted); max-width: 640px; }
-    .profile-links { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
-    .profile-link { display: inline-flex; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 7px; color: var(--muted); text-decoration: none; font-size: .9rem; font-weight: 600; }
-    .profile-link:hover { border-color: var(--accent); color: var(--ink); background: var(--surface); }
-    .profile-link svg { width: 15px; height: 15px; fill: currentColor; flex: none; }
-    article { border: 1px solid var(--line); background: var(--surface); border-radius: 18px; padding: clamp(18px, 3.5vw, 32px); }
-    .project-top { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px 16px; align-items: center; }
-    .tag { border: 1px solid var(--line); border-radius: 30px; padding: 5px 10px; font-size: .75rem; white-space: nowrap; }
-    h2 { font-size: clamp(1.55rem, 3.5vw, 2.36rem); margin: 0 0 12px; letter-spacing: -.04em; font-weight: 550; }
-    h3 { font-size: clamp(1.07rem, 2.2vw, 1.33rem); margin: 0 0 5px; letter-spacing: -.025em; font-weight: 600; }
-    .compact-heading { font-size: clamp(1.07rem, 2.2vw, 1.33rem); letter-spacing: -.025em; font-weight: 600; }
-    article p { color: var(--muted); line-height: 1.75; }
-    article p:last-child { margin-bottom: 0; }
-    .section { margin-top: 40px; }
-    .stack { display: grid; gap: 14px; }
-    .role { margin-top: 0; font-size: .95rem; }
-    .details { padding-left: 20px; margin-bottom: 0; color: var(--muted); line-height: 1.75; }
-    .details li + li { margin-top: 12px; }
-    strong { color: var(--ink); font-weight: 650; }
-    .technical-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; margin: 0; }
-    .technical-grid > div { border-top: 1px solid var(--line); padding-top: 14px; }
-    dt { font-weight: 650; }
-    dd { margin: 6px 0 0; color: var(--muted); line-height: 1.75; }
-    .narrative { max-width: 720px; font-size: 1rem; color: var(--muted); line-height: 1.8; }
-    .project-title { font-size: clamp(1.07rem, 2.2vw, 1.33rem); margin: 0; letter-spacing: -.025em; font-weight: 600; }
-    .project-copy { max-width: 560px; }
-    .project-note { font-size: .85rem; }
-    #projects > article + article { margin-top: 14px; }
-    .project-card-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(160px, 27%); gap: 24px; align-items: start; margin-top: 16px; }
-    .project-thumb { display: block; }
-    .project-thumb img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; }
-    .actions { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; margin-top: 18px; }
-    a { color: inherit; text-underline-offset: 4px; }
-    .button { display: inline-flex; gap: 18px; align-items: center; background: var(--accent); color: #fff; padding: 10px 14px; border-radius: 8px; text-decoration: none; font-weight: 600; }
-    .button:hover { background: var(--ink); }
-    a:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
-    .secondary { font-size: .9rem; }
-    .skip-link { position: absolute; left: 24px; top: 12px; padding: 8px 12px; background: var(--surface); transform: translateY(-200%); }
-    .skip-link:focus { transform: translateY(0); }
-    footer { margin-top: 30px; color: var(--muted); font-size: .8rem; line-height: 1.7; }
-    @media (max-width: 600px) { .technical-grid, .project-card-body { grid-template-columns: 1fr; } .project-thumb { max-width: 320px; } }
-    @media (max-width: 480px) { main { padding-top: 20px; } .intro { padding: 26px 0 30px; } .project-top { align-items: flex-start; } .section { margin-top: 34px; } }
-  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="stylesheet" href="/site.css">
 </head>
-<body>
+<body class="home">
   <a class="skip-link" href="#main-content">Skip to content</a>
   <main id="main-content">
-    <section class="intro" aria-labelledby="intro-title">
-      <p class="eyebrow">Backend / Infrastructure / AI Systems</p>
-      <h2 id="intro-title">Jianing Wang</h2>
-      <p class="positioning">Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms.</p>
-      <p class="intro-copy">I build reliable systems at scale. My work spans infrastructure and platforms at Uber and Yahoo, and recent independent work on AI applications and agents.</p>
-      <div class="profile-links" aria-label="Professional profiles">
-        <a class="profile-link" href="https://www.linkedin.com/in/jianingwang/" aria-label="Jianing Wang on LinkedIn">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146Zm4.943 12.248V6.169H2.542v7.225h2.401Zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.521-1.248-1.342-1.248-.821 0-1.358.54-1.358 1.248 0 .694.521 1.248 1.327 1.248h.015Zm3.908 8.212h2.4V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865H15V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225Z"/></svg>
-          LinkedIn
-        </a>
-        <a class="profile-link" href="https://github.com/robinbach" aria-label="robinbach on GitHub">
-          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.65 7.65 0 0 1 8 4.74c.68 0 1.36.09 2 .26 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-          GitHub
-        </a>
+    <header class="masthead">
+      <div>
+        <p class="label">Backend / Infrastructure / AI Systems</p>
+        <h1>Jianing Wang</h1>
+        <p class="positioning">Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms.</p>
+        <p class="intro-copy">I build reliable systems at scale. My work spans infrastructure and platforms at Uber and Yahoo, and recent independent work on AI applications and agents.</p>
       </div>
-    </section>
+      <dl class="meta" aria-label="At a glance">
+        <div><dt>Now</dt><dd>Independent AI development</dd></div>
+        <div><dt>Before</dt><dd>Uber · Uber Freight · Yahoo</dd></div>
+        <div><dt>Read</dt><dd><a href="presto/">Presto at Uber walkthrough</a></dd></div>
+        <div><dt>Elsewhere</dt><dd><a href="https://www.linkedin.com/in/jianingwang/" aria-label="Jianing Wang on LinkedIn">LinkedIn</a> · <a href="https://github.com/robinbach" aria-label="robinbach on GitHub">GitHub</a></dd></div>
+      </dl>
+    </header>
 
-    <section id="experience" aria-labelledby="experience-title">
+    <dl class="figures" aria-label="Selected results">
+      <div><dt>~20<small>PB / month</small></dt><dd>of remote reads avoided by local SSD caching<span>Uber · Presto</span></dd></div>
+      <div><dt>~$2M<small>/ year</small></dt><dd>estimated infrastructure savings from connector cloud routing<span>Uber · Presto</span></dd></div>
+      <div><dt>~92<small>%</small></dt><dd>shipment tracking rate reached by Project Lasso<span>Uber Freight</span></dd></div>
+      <div><dt>95<small>% +</small></dt><dd>of cloud instances served by the TLS certificate lifecycle service<span>Yahoo</span></dd></div>
+    </dl>
+
+    <section class="band" id="experience" aria-labelledby="experience-title">
       <h2 id="experience-title">Experience</h2>
-      <div class="stack">
-        <article aria-labelledby="independent-title">
-          <h3 id="independent-title">Independent AI Developer</h3>
-          <p class="role"><time datetime="2025-05">May 2025</time> – Present</p>
+      <div>
+        <article class="entry" aria-labelledby="independent-title">
+          <header class="entry-head">
+            <h3 id="independent-title">Independent AI Developer</h3>
+            <p class="role"><time datetime="2025-05">May 2025</time> – Present</p>
+          </header>
           <p>I build and operate AI applications and services, drawing on my background in backend infrastructure and distributed systems. My work spans independent products and community collaborations, with cloud-hosted services used daily and actively maintained.</p>
           <ul class="details">
             <li><strong>AI-native services and end-to-end ownership.</strong> Built and operated services for document processing, text processing, and workflow automation, taking them from initial design through deployment and ongoing maintenance. Integrated model APIs, retrieval, and tool execution into workflows that produce usable, structured results.</li>
@@ -114,9 +62,11 @@
             <li><strong>Model evaluation and operating-cost tradeoffs.</strong> Evaluated models through hands-on use, human review, and LLM-based evaluation across quality, latency, reliability, and cost. Personally funded substantial API usage to test models in real workflows, using those findings to guide model selection and routing as application needs evolved.</li>
           </ul>
         </article>
-        <article aria-labelledby="uber-title">
-          <h3 id="uber-title">Uber Technologies</h3>
-          <p class="role">Storage, Search &amp; Data</p>
+        <article class="entry" aria-labelledby="uber-title">
+          <header class="entry-head">
+            <h3 id="uber-title">Uber Technologies</h3>
+            <p class="role">Storage, Search &amp; Data</p>
+          </header>
           <p>Owned initiatives across Uber’s Presto-based distributed SQL and data query platform: routing, quotas, caching, notifications, connector and version upgrades, upstream engine merges, and on-call operations.</p>
           <p class="secondary"><a href="https://www.ibm.com/think/news/uber-presto">Further reading: Uber’s Presto platform — IBM</a></p>
           <ul class="details">
@@ -126,27 +76,35 @@
               <p class="secondary"><a href="https://prestodb.io/blog/2025/08/08/unlocking-petabyte-scale-performance-ubers-journey-with-alluxio-distributed-cache/">Further reading: Uber’s Alluxio distributed cache — Presto</a></p>
             </li>
           </ul>
-          <div class="actions"><a class="button" href="presto/">Explore Presto architecture &amp; governance <span aria-hidden="true">→</span></a></div>
+          <a class="walkthrough" href="presto/">
+            <span class="label">Walkthrough · 10 slides · English / 中文</span>
+            <b>Explore Presto architecture &amp; governance</b>
+            <i aria-hidden="true">→</i>
+          </a>
         </article>
-        <article aria-labelledby="freight-title">
-          <h3 id="freight-title">Uber Freight</h3>
-          <p class="role">Tracking Platform</p>
+        <article class="entry" aria-labelledby="freight-title">
+          <header class="entry-head">
+            <h3 id="freight-title">Uber Freight</h3>
+            <p class="role">Tracking Platform</p>
+          </header>
           <p>Built a freight tracking intelligence platform spanning data ingestion, load matching, ETA prediction, GPS processing, and tracking algorithms.</p>
           <p>Project Lasso achieved an approximately <strong>92% tracking rate</strong>, among the highest reported across major freight tracking platforms.</p>
           <p class="secondary"><a href="https://www.uberfreight.com/en-US/blog/estimating-shipment-arrival-ai">Further reading: Project Lasso and shipment arrival predictions — Uber Freight</a></p>
         </article>
-        <article aria-labelledby="yahoo-title">
-          <h3 id="yahoo-title">Yahoo</h3>
-          <p class="role">Internal Platforms</p>
+        <article class="entry" aria-labelledby="yahoo-title">
+          <header class="entry-head">
+            <h3 id="yahoo-title">Yahoo</h3>
+            <p class="role">Internal Platforms</p>
+          </header>
           <p>Designed and owned a TLS certificate lifecycle management service supporting <strong>more than 95% of Yahoo cloud instances</strong>.</p>
           <p>Built a Java push notification gateway using HTTP/2 multiplexing and multithreading, serving <strong>~12K QPS</strong>.</p>
         </article>
       </div>
     </section>
 
-    <section class="section" aria-labelledby="technical-title">
-      <h2 class="compact-heading" id="technical-title">Technical areas</h2>
-      <dl class="technical-grid">
+    <section class="band" aria-labelledby="technical-title">
+      <h2 id="technical-title">Technical areas</h2>
+      <dl class="areas">
         <div><dt>Distributed Systems &amp; Data</dt><dd>Presto, Hadoop/HDFS, Kafka, Redis, Alluxio</dd></div>
         <div><dt>Infrastructure</dt><dd>Docker, Kubernetes, AWS, Linux</dd></div>
         <div><dt>Languages</dt><dd>Java, Go, Python, C++, SQL</dd></div>
@@ -154,89 +112,65 @@
       </dl>
     </section>
 
-    <section class="section" id="about" aria-labelledby="about-title">
-      <h2 class="compact-heading" id="about-title">A through line</h2>
+    <section class="band" id="about" aria-labelledby="about-title">
+      <h2 id="about-title">A through line</h2>
       <p class="narrative">My work has moved from platform and security foundations at Yahoo to user-facing, ML-driven systems at Uber Freight, then large-scale data infrastructure at Uber. Today, I bring that experience to AI-native systems and agents. The consistent thread is an interest in technically deep systems that make a practical difference for the people using them.</p>
     </section>
 
-    <section class="section" id="projects" aria-labelledby="projects-title">
+    <section class="band" id="projects" aria-labelledby="projects-title">
       <h2 id="projects-title">Independent Work</h2>
-      <article aria-labelledby="narrative-memory-title">
-        <div class="project-top">
-          <span class="eyebrow">01 / Managed-memory interactive narratives</span>
-          <span class="tag">Interactive prototype</span>
-        </div>
-        <div class="project-card-body">
-          <div>
-            <h3 class="project-title" id="narrative-memory-title">Narrative Memory Engine</h3>
-            <p class="project-copy">A managed-memory narrative engine that coordinates model narration with persistent story state, controlled context, and deterministic rules.</p>
-            <div class="actions">
-              <a class="button" href="/icoc/">View showcase <span aria-hidden="true">→</span></a>
-            </div>
-            <p class="project-note">A fast decision model interprets actions, a generative model narrates, and the engine maintains continuity.</p>
-          </div>
-          <a class="project-thumb" href="/icoc/" aria-label="View the Narrative Memory Engine project showcase">
+      <div>
+        <article class="project" aria-labelledby="narrative-memory-title">
+          <a class="project-shot" href="/icoc/" aria-label="View the Narrative Memory Engine project showcase">
             <img src="/icoc/images/01-investigation.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="Narrative Memory Engine demo with the narration on the left and persistent story state on the right.">
           </a>
-        </div>
-      </article>
-      <article aria-labelledby="jag-title">
-        <div class="project-top">
-          <span class="eyebrow">02 / LLM-assisted retrieval &amp; ranking</span>
-          <span class="tag">Closed-source proof of concept</span>
-        </div>
-        <div class="project-card-body">
           <div>
-            <h3 class="project-title" id="jag-title">Career Intelligence Workbench</h3>
-            <p class="project-copy">A transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.</p>
-            <div class="actions">
-              <a class="button" href="/jag/">View showcase <span aria-hidden="true">→</span></a>
-            </div>
-            <p class="project-note">Local-first retrieval and ranking. Application decisions stay with the user.</p>
+            <p class="label">Managed-memory interactive narratives · Interactive prototype</p>
+            <h3 id="narrative-memory-title"><a href="/icoc/">Narrative Memory Engine</a></h3>
+            <p>A managed-memory narrative engine that coordinates model narration with persistent story state, controlled context, and deterministic rules.</p>
+            <p class="project-note">A fast decision model interprets actions, a generative model narrates, and the engine maintains continuity.</p>
+            <p class="links"><a href="/icoc/">View showcase <span aria-hidden="true">→</span></a></p>
           </div>
-          <a class="project-thumb" href="/jag/" aria-label="View the Career Intelligence Workbench project showcase">
+        </article>
+        <article class="project" aria-labelledby="jag-title">
+          <a class="project-shot" href="/jag/" aria-label="View the Career Intelligence Workbench project showcase">
             <img src="/jag/images/04-ranked-report.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Career Intelligence Workbench ranked job report with company filters, fit scores, and supporting evidence.">
           </a>
-        </div>
-      </article>
-      <article aria-labelledby="lab-analysis-title">
-        <div class="project-top">
-          <span class="eyebrow">03 / Computer vision &amp; AI-assisted analysis</span>
-          <span class="tag">Registered software</span>
-        </div>
-        <div class="project-card-body">
           <div>
-            <h3 class="project-title" id="lab-analysis-title">AI-Assisted Laboratory Image Analysis</h3>
-            <p class="project-copy">A laboratory imaging workflow for importing diagnostic images, detecting and quantifying visual features, and producing AI-assisted classifications and statistical summaries for review. Registered under China National Software Copyright Registry <strong>#12137438</strong>.</p>
-            <div class="actions">
-              <a class="button" href="/lab-analysis/">View showcase <span aria-hidden="true">→</span></a>
-            </div>
+            <p class="label">LLM-assisted retrieval &amp; ranking · Closed-source proof of concept</p>
+            <h3 id="jag-title"><a href="/jag/">Career Intelligence Workbench</a></h3>
+            <p>A transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.</p>
+            <p class="project-note">Local-first retrieval and ranking. Application decisions stay with the user.</p>
+            <p class="links"><a href="/jag/">View showcase <span aria-hidden="true">→</span></a></p>
           </div>
-          <a class="project-thumb" href="/lab-analysis/" aria-label="View the AI-Assisted Laboratory Image Analysis project showcase">
+        </article>
+        <article class="project" aria-labelledby="lab-analysis-title">
+          <a class="project-shot" href="/lab-analysis/" aria-label="View the AI-Assisted Laboratory Image Analysis project showcase">
             <img src="/lab-analysis/images/demo01.png" width="833" height="504" loading="lazy" decoding="async" alt="Laboratory image analysis interface showing a processed assay image with detected spots and image adjustment controls.">
           </a>
-        </div>
-      </article>
-      <article aria-labelledby="rot-title">
-        <div class="project-top">
-          <span class="eyebrow">04 / Interactive biophysical simulation</span>
-          <span class="tag">Runs in your browser</span>
-        </div>
-        <div class="project-card-body">
           <div>
-            <h3 class="project-title" id="rot-title">Biophysical Systems Sandbox</h3>
-            <p class="project-copy">A data-rich simulation sandbox for exploring interactions among biological material, microbial populations, water, soil, and physical forces.</p>
-            <div class="actions">
-              <a class="button" href="/rot/chunks/">Open sandbox <span aria-hidden="true">↗</span></a>
-              <a class="secondary" href="/rot/chunks/rind/">Single-piece experiment</a>
-              <a class="secondary" href="/rot/">Earlier version</a>
-            </div>
+            <p class="label">Computer vision &amp; AI-assisted analysis · Registered software</p>
+            <h3 id="lab-analysis-title"><a href="/lab-analysis/">AI-Assisted Laboratory Image Analysis</a></h3>
+            <p>A laboratory imaging workflow for importing diagnostic images, detecting and quantifying visual features, and producing AI-assisted classifications and statistical summaries for review. Registered under China National Software Copyright Registry <strong>#12137438</strong>.</p>
+            <p class="links"><a href="/lab-analysis/">View showcase <span aria-hidden="true">→</span></a></p>
           </div>
-          <a class="project-thumb" href="/rot/chunks/" aria-label="Open the Biophysical Systems Sandbox">
+        </article>
+        <article class="project" aria-labelledby="rot-title">
+          <a class="project-shot" href="/rot/chunks/" aria-label="Open the Biophysical Systems Sandbox">
             <img src="/rot/thumbnail.png" width="1280" height="720" loading="lazy" decoding="async" alt="Biophysical Systems Sandbox showing a three-dimensional fruit, soil, and water simulation with controls.">
           </a>
-        </div>
-      </article>
+          <div>
+            <p class="label">Interactive biophysical simulation · Runs in your browser</p>
+            <h3 id="rot-title"><a href="/rot/chunks/">Biophysical Systems Sandbox</a></h3>
+            <p>A data-rich simulation sandbox for exploring interactions among biological material, microbial populations, water, soil, and physical forces.</p>
+            <p class="links">
+              <a href="/rot/chunks/">Open sandbox <span aria-hidden="true">↗</span></a>
+              <a href="/rot/chunks/rind/">Single-piece experiment</a>
+              <a href="/rot/">Earlier version</a>
+            </p>
+          </div>
+        </article>
+      </div>
     </section>
     <footer>Jianing Wang · Systems, infrastructure, and experiments.</footer>
   </main>
