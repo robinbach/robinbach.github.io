@@ -1,0 +1,10 @@
+/* Share-card template, rendered at 1200x630 by tools/og/render.sh. */
+@import url("/fonts/fonts.css");
+* { box-sizing: border-box; }
+html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+body { background: #f3f2ec; color: #16211d; font-family: "IBM Plex Sans", sans-serif; padding: 72px 84px 64px; display: flex; flex-direction: column; }
+.label { font: 400 26px/1.4 "IBM Plex Mono", monospace; color: #5d6a63; }
+h1 { margin: 22px 0 0; font: 500 112px/1 "Newsreader", serif; letter-spacing: -.025em; }
+p { margin: 30px 0 0; max-width: 24em; font: 400 40px/1.3 "Newsreader", serif; }
+footer { margin-top: auto; display: flex; justify-content: space-between; align-items: baseline; padding-top: 22px; border-top: 3px solid #16211d; font: 400 26px/1 "IBM Plex Mono", monospace; color: #5d6a63; }
+footer b { font-weight: 400; color: #ab4f27; }

@@ -15,9 +15,15 @@
   <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>Jianing Wang — Software Engineer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jianing Wang">
+  <meta property="og:title" content="Jianing Wang — Software Engineer">
+  <meta property="og:description" content="Jianing Wang — Software Engineer focused on distributed systems, data infrastructure, and AI-native platforms. Experience at Uber and Yahoo; independent AI development.">
+  <meta property="og:url" content="https://robinbach.github.io/">
+  <meta property="og:image" content="https://robinbach.github.io/og/home.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/site.css">
 </head>
 <body class="home">
@@ -47,11 +53,11 @@
           </header>
           <p>I design, build, and operate LLM applications end to end, across my own products and community collaborations, with cloud-hosted services in daily use. Most examples below come from the <a href="/icoc/">Narrative Memory Engine</a>.</p>
           <ul class="details">
-            <li><strong>Judgment and generation on separate models.</strong> Closed questions go to a fast decision model that returns a probability; only prose goes to a generative model. The decisions run in parallel with retrieval, so narration starts about <strong>350 ms</strong> after a request arrives and a full turn takes about <strong>3 s</strong>.</li>
-            <li><strong>State held by the application, not the conversation.</strong> Anything that must stay true lives in engine state, and the prompt is rebuilt from it each turn. Text the user has not unlocked is never sent to the model, so a leak is ruled out by construction instead of by instruction.</li>
-            <li><strong>Thresholds chosen from data, changes checked by replay.</strong> Each decision has its own threshold, set from measured separation on a labelled test set. A change ships only if replayed games improve. The analysis tooling is open source as <a href="/s1scope/">s1scope</a>.</li>
-            <li><strong>An expert-review workflow in daily institutional use.</strong> Sole developer of a patented system that combines image processing, LLM classification, and structured data population, replacing manual inspection and form filling spread across several tools.</li>
-            <li><strong>Agents and model selection in other services.</strong> Built document and workflow automation with tool orchestration, MCP integrations, structured outputs, and failure handling. Chose and routed models by comparing quality, latency, reliability, and cost in real workflows.</li>
+            <li>I split judgment from generation. Closed questions go to a fast decision model that returns a probability; only prose goes to a generative model. The decisions run in parallel with retrieval, so narration starts about <strong>350 ms</strong> after a request arrives and a full turn takes about <strong>3 s</strong>.</li>
+            <li>The application holds the state, not the conversation. Anything that must stay true lives in engine state, and the prompt is rebuilt from it each turn. Text the user has not unlocked is never sent to the model, so a leak is ruled out by construction instead of by instruction.</li>
+            <li>Each decision has its own threshold, set from measured separation on a labelled test set, and a change ships only if replayed games improve. The analysis tooling is open source as <a href="/s1scope/">s1scope</a>.</li>
+            <li>Outside games, I am the sole developer of a patented expert-review system in daily use at a large institution. It combines image processing, LLM classification, and structured data population, replacing manual inspection and form filling that were spread across several tools.</li>
+            <li>Other services cover document and workflow automation, with tool orchestration, MCP integrations, structured outputs, and failure handling. I choose and route models by comparing quality, latency, reliability, and cost in real workflows.</li>
           </ul>
         </article>
         <article class="entry" aria-labelledby="uber-title">

@@ -15,9 +15,15 @@
   <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>Narrative Memory Engine — Jianing Wang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jianing Wang">
+  <meta property="og:title" content="Narrative Memory Engine — Jianing Wang">
+  <meta property="og:description" content="Narrative Memory Engine by Jianing Wang: a managed-memory interactive narrative system with persistent story state, controlled context, and deterministic rules.">
+  <meta property="og:url" content="https://robinbach.github.io/icoc/">
+  <meta property="og:image" content="https://robinbach.github.io/icoc/images/01-investigation.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -39,14 +45,14 @@
         <a href="images/01-investigation.jpg" aria-label="Open full-size image: Narrative Memory Engine demo with narration on the left and persistent story state on the right.">
           <img src="images/01-investigation.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="Narrative Memory Engine demo with narration and a newly found clue on the left, and the current scene, map, investigator, and carried items on the right.">
         </a>
-        <figcaption>Turn four of the demo case. The clue chip under the narration and the panel on the right come from engine state, not from the model's text. Select the image to view it at full size.</figcaption>
+        <figcaption>Turn four of the demo case. The clue chip under the narration and the panel on the right come from engine state, not from the model's text.</figcaption>
       </figure>
       <p class="showcase-copy">Each case opens with a fixed prologue in the keeper's voice: where this is, who you are, how to play, and the promises this story makes, such as that nothing here will kill you and that nobody disappears without a reason. The same promises are given to the model, which has to run the game by them.</p>
       <figure>
         <a href="images/02-prologue.jpg" aria-label="Open full-size image: the prologue of the demo case, introducing the setting before play begins.">
           <img src="images/02-prologue.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="The prologue of the demo case, with the keeper introducing the town and the old house before play begins.">
         </a>
-        <figcaption>The prologue is authored text, so every player starts from the same footing. Select the image to view it at full size.</figcaption>
+        <figcaption>The prologue is authored text, so every player starts from the same footing.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="turn" aria-labelledby="turn-title">
@@ -56,7 +62,7 @@
         <a href="images/turn-pipeline.svg" aria-label="Open full-size diagram: the pipeline for one turn, from the player's line to updated engine state.">
           <img src="images/turn-pipeline.svg" width="960" height="400" loading="lazy" decoding="async" alt="Diagram of one turn: player line, decisions and memory retrieval, engine, keeper model, reply, then a recorder model that feeds validated changes back into engine state.">
         </a>
-        <figcaption>Decisions come first, narration second, bookkeeping last. Dark boxes are engine code; the others are model calls or text. Select the diagram to view it at full size.</figcaption>
+        <figcaption>Decisions come first, narration second, bookkeeping last. Dark boxes are engine code; the others are model calls or text.</figcaption>
       </figure>
       <p class="showcase-copy">The keeper, a generative model from OpenAI, then writes the reply from what was decided. It has no tool for revealing clues. Its tools are an accusation, offered only on turns where the decision model judged the line to be one, and closing the case once a charge has been proven. After the reply is shown, a recorder model reads the turn in the background and proposes what else changed: who moved, which facts changed, where the reply contradicts the record. The engine validates those proposals before storing them, and never lets them overwrite what the decision model settled or what the author fixed.</p>
       <p class="showcase-copy">In a recorded 44-turn game, the three decision requests asked about 16 questions per turn and the keeper started writing 348 ms after the server received the line (median). The whole reply took 3.2 s at the median and 4.4 s at the 90th percentile. <a href="architecture.html">The architecture page</a> follows a turn through every layer, with the numbers for each.</p>
@@ -68,14 +74,14 @@
         <a href="images/keeper-view.svg" aria-label="Open full-size diagram: what the engine holds compared with what the keeper model is shown each turn.">
           <img src="images/keeper-view.svg" width="960" height="380" loading="lazy" decoding="async" alt="Diagram comparing what the engine holds, the per-turn filter, and the limited view the keeper model receives.">
         </a>
-        <figcaption>The prompt is rebuilt from state every turn, so the model's own earlier wording cannot drift into fact. Select the diagram to view it at full size.</figcaption>
+        <figcaption>The prompt is rebuilt from state every turn, so the model's own earlier wording cannot drift into fact.</figcaption>
       </figure>
       <p class="showcase-copy">Accusations follow the same rule. The decision model judges which known clues the player is putting in front of the accused, and the engine adds them to that person's record across turns, requires the accused to be in the room, and grades each charge by the evidence shown. When the proof falls short, the keeper writes the denial and points at the kind of evidence still missing. The clue list the player sees is the engine's record, with the place and turn each clue was found.</p>
       <figure>
         <a href="images/03-clues.jpg" aria-label="Open full-size image: the known clues list in the case notes.">
           <img src="images/03-clues.jpg" width="2560" height="1440" loading="lazy" decoding="async" alt="The case notes scrolled to the known clues list, each clue with its text, location, and the turn it was found.">
         </a>
-        <figcaption>Known clues early in the demo case. Only what the player has found is ever sent to the browser. Select the image to view it at full size.</figcaption>
+        <figcaption>Known clues early in the demo case. Only what the player has found is ever sent to the browser.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="challenges" aria-labelledby="challenges-title">
@@ -208,12 +214,12 @@
       <h2 id="design-title">Design tradeoffs</h2>
       <article aria-label="Narrative Memory Engine design tradeoffs">
         <ul class="details">
-          <li><strong>Fast model for judgment, slow model for prose.</strong> Whether a line means “go to the kitchen” is a closed question with a right answer; how the kitchen feels at dusk is not. The first goes to a decision model that answers quickly with a probability the engine can threshold. The second goes to a generative model. The cost is a second dependency and two kinds of error to reconcile. The gain is that the slow model is never asked to be a parser.</li>
-          <li><strong>State in the engine, not in the conversation.</strong> A long chat is a poor database: the model's last paragraph outweighs a fact from twenty turns ago. So anything that must stay true is recorded as engine state and handed back each turn. That costs a bookkeeping pass per turn and a schema for every kind of fact. It buys a world that does not drift.</li>
-          <li><strong>The keeper is free; the record is strict.</strong> The engine does not block the narrator in the middle of a scene. What must be settled is settled before the model writes, the rest is recorded after it writes, and where the reply and the record disagree, the record stands and the next turn resolves the difference inside the story. This keeps play fluid and accepts that a correction may arrive a turn late.</li>
-          <li><strong>Division of labor keeps the prompt light.</strong> Because decisions run first and the engine filters, the keeper's prompt holds only what this turn needs: the clues in reach, the people in the room, the rule for the situation at hand. A shorter prompt is cheaper, and it also leaves the model fewer instructions to weigh against each other.</li>
-          <li><strong>Authored structure under free play.</strong> Players can type anything, but a mystery needs a fixed truth. Clues, conditions, and charges are authored; the wording, pacing, and characters' voices are improvised. The seam is the discovery condition, written in plain language and judged against the player's line, with more than one independent route to each thing that must be proven.</li>
-          <li><strong>Evidence over impressions.</strong> With models in the loop, a change that fixes one line can break three others. Every turn can be logged in full and replayed offline, so a rule is kept only if recorded games get better.</li>
+          <li>Judgment and prose go to different models. Whether a line means “go to the kitchen” is a closed question with a right answer; how the kitchen feels at dusk is not. The first goes to a decision model that answers quickly with a probability the engine can threshold, the second to a generative model. The cost is a second dependency and two kinds of error to reconcile; in return, the slow model is never asked to be a parser.</li>
+          <li>State lives in the engine, not in the conversation, because a long chat is a poor database: the model's last paragraph outweighs a fact from twenty turns ago. So anything that must stay true is recorded as engine state and handed back each turn. That costs a bookkeeping pass per turn and a schema for every kind of fact, and the world stops drifting.</li>
+          <li>The engine never blocks the narrator in the middle of a scene. What must be settled is settled before the model writes, the rest is recorded after it writes, and where the reply and the record disagree, the record stands and the next turn resolves the difference inside the story. This keeps play fluid and accepts that a correction may arrive a turn late.</li>
+          <li>Because decisions run first and the engine filters, the keeper's prompt holds only what this turn needs: the clues in reach, the people in the room, the rule for the situation at hand. A shorter prompt is cheaper, and it also leaves the model fewer instructions to weigh against each other.</li>
+          <li>Players can type anything, but a mystery needs a fixed truth. Clues, conditions, and charges are authored; the wording, pacing, and characters' voices are improvised. The seam is the discovery condition, written in plain language and judged against the player's line, with more than one independent route to each thing that must be proven.</li>
+          <li>With models in the loop, a change that fixes one line can break three others. Every turn can be logged in full and replayed offline, so a rule is kept only if recorded games get better.</li>
         </ul>
       </article>
       <p class="project-note showcase-copy">Built with TypeScript, React, and Express, the OpenAI API for narration, recording, and embeddings, and TypeSafe Jev for decisions. The interface and story content support localization. The screenshots show a real recorded English-language playthrough, captured early enough not to spoil the case.</p>

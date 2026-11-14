@@ -250,3 +250,6 @@ code { font: .9em var(--mono); color: var(--ink); }
 .challenge .measured { color: var(--ink); font-weight: 500; }
 @media (max-width: 620px) { .challenge dl { grid-template-columns: 1fr; gap: 2px; } .challenge dd { margin-bottom: 10px; } }
 
+
+/* Spacing for a note that follows a list or chart. */
+.showcase-section > .project-note, .bars + p { margin-top: 20px; }

@@ -15,9 +15,15 @@
   <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>s1scope — Jianing Wang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jianing Wang">
+  <meta property="og:title" content="s1scope — Jianing Wang">
+  <meta property="og:description" content="s1scope by Jianing Wang: an open-source local viewer for logged decision-model calls, showing per-question probability distributions, thresholds, calibration, and run-to-run changes.">
+  <meta property="og:url" content="https://robinbach.github.io/s1scope/">
+  <meta property="og:image" content="https://robinbach.github.io/s1scope/images/01-overview.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -41,14 +47,14 @@
         <a href="images/01-overview.jpg" aria-label="Open full-size image: s1scope overview for a yes/no question, split by language, with error counts and the distribution of p for each language.">
           <img src="images/01-overview.jpg" width="2720" height="1720" loading="lazy" decoding="async" alt="s1scope overview for a yes/no question, split by language, with error counts and the distribution of p for each language.">
         </a>
-        <figcaption>Split by language, the German tickets show a large share of confident wrong answers that the pooled numbers hide. Select the image to view it at full size.</figcaption>
+        <figcaption>Split by language, the German tickets show a large share of confident wrong answers that the pooled numbers hide.</figcaption>
       </figure>
       <p class="showcase-copy">The reliability curve compares predicted <code>p</code> with the observed rate, and the threshold sweep shows both error counts at every threshold from 0 to 1, so the cost of moving a threshold is visible before it ships.</p>
       <figure>
         <a href="images/02-calibration.jpg" aria-label="Open full-size image: Reliability curves and threshold sweeps for each language.">
           <img src="images/02-calibration.jpg" width="2040" height="920" loading="lazy" decoding="async" alt="Reliability curves and threshold sweeps for each language.">
         </a>
-        <figcaption>Calibration and the threshold sweep, split the same way. Select the image to view it at full size.</figcaption>
+        <figcaption>Calibration and the threshold sweep, split the same way.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="versions" aria-labelledby="versions-title">
@@ -58,7 +64,7 @@
         <a href="images/03-versions.jpg" aria-label="Open full-size image: A question with two recorded versions, the instructions as sent, and the distribution of p split by version.">
           <img src="images/03-versions.jpg" width="2720" height="2120" loading="lazy" decoding="async" alt="A question with two recorded versions, the instructions as sent, and the distribution of p split by version.">
         </a>
-        <figcaption>Two wordings of the same question. The newer one separates the expected answers more cleanly. Select the image to view it at full size.</figcaption>
+        <figcaption>Two wordings of the same question. The newer one separates the expected answers more cleanly.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="compare" aria-labelledby="compare-title">
@@ -68,7 +74,7 @@
         <a href="images/04-compare.jpg" aria-label="Open full-size image: Compare view showing two nightly runs, counts of samples that got worse or better, and a scatter of p in A against p in B.">
           <img src="images/04-compare.jpg" width="2720" height="2200" loading="lazy" decoding="async" alt="Compare view showing two nightly runs, counts of samples that got worse or better, and a scatter of p in A against p in B.">
         </a>
-        <figcaption>A prompt change between two nightly runs: 12 samples fixed, 1 broken, total errors from 20 to 9. Select the image to view it at full size.</figcaption>
+        <figcaption>A prompt change between two nightly runs: 12 samples fixed, 1 broken, total errors from 20 to 9.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="records" aria-labelledby="records-title">
@@ -78,7 +84,7 @@
         <a href="images/05-record.jpg" aria-label="Open full-size image: Record panel showing run metadata, the answer, the question as sent, and the state sent to the model.">
           <img src="images/05-record.jpg" width="2720" height="1720" loading="lazy" decoding="async" alt="Record panel showing run metadata, the answer, the question as sent, and the state sent to the model.">
         </a>
-        <figcaption>The record panel for one wrong answer. Select the image to view it at full size.</figcaption>
+        <figcaption>The record panel for one wrong answer.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="logging" aria-labelledby="logging-title">
@@ -94,10 +100,10 @@ node dist/src/cli.js view examples/demo
       <h2 id="design-title">Engineering choices</h2>
       <article aria-label="s1scope implementation highlights">
         <ul class="details">
-          <li><strong>Local and read-only.</strong> The viewer serves on 127.0.0.1 and reads log folders in place. Logs can hold private prompts and state, so nothing is uploaded.</li>
-          <li><strong>Thresholds as first-class settings.</strong> A record can carry the threshold its application uses, and every count is computed at a threshold you can move.</li>
-          <li><strong>Samples line up across runs.</strong> A shared sample id makes run-to-run comparison a join, not a guess.</li>
-          <li><strong>A plain file format.</strong> A small, documented JSONL format that any language can write.</li>
+          <li>The viewer is local and read-only: it serves on 127.0.0.1 and reads log folders in place. Logs can hold private prompts and state, so nothing is uploaded.</li>
+          <li>A record can carry the threshold its application uses, and every count is computed at a threshold you can move.</li>
+          <li>A shared sample id lines samples up across runs, so comparing two runs is a join, not a guess.</li>
+          <li>Calls are stored in a small, documented JSONL format that any language can write.</li>
         </ul>
       </article>
       <p class="project-note showcase-copy">Built to tune the decision layer of the <a href="/icoc/">Narrative Memory Engine</a>. Screenshots show synthetic support-ticket data; no real prompts or labels appear.</p>

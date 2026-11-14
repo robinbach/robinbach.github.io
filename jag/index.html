@@ -15,9 +15,15 @@
   <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>Job Posting Ranker — Jianing Wang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jianing Wang">
+  <meta property="og:title" content="Job Posting Ranker — Jianing Wang">
+  <meta property="og:description" content="Job Posting Ranker by Jianing Wang: a transparent job-post filtering and ranking system with inspectable retrieval, eligibility, and evaluation stages.">
+  <meta property="og:url" content="https://robinbach.github.io/jag/">
+  <meta property="og:image" content="https://robinbach.github.io/jag/images/04-ranked-report.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -38,7 +44,7 @@
         <a href="images/01-main-console.jpg" aria-label="Open full-size image: Job Posting Ranker main console showing source readiness and explicit retrieval controls.">
           <img src="images/01-main-console.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Job Posting Ranker main console showing source readiness and explicit retrieval controls.">
         </a>
-        <figcaption>The main console separates retrieval from filtering and ranking. Select the image to view it at full size.</figcaption>
+        <figcaption>The main console separates retrieval from filtering and ranking.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="pipeline" aria-labelledby="pipeline-title">
@@ -48,14 +54,14 @@
         <a href="images/02-company-stats.jpg" aria-label="Open full-size image: Company statistics showing fetched, eligible, and ranked job counts.">
           <img src="images/02-company-stats.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Company statistics showing fetched, eligible, and ranked job counts.">
         </a>
-        <figcaption>Company-level counts make the conversion from inventory to useful matches visible. Select the image to view it at full size.</figcaption>
+        <figcaption>Company-level counts make the conversion from inventory to useful matches visible.</figcaption>
       </figure>
       <p class="showcase-copy">Each company’s retrieval is checkpointed independently, with record counts and processing provenance. A failed company does not erase its previous usable snapshot; only a fully completed selected batch becomes the latest ranking input.</p>
       <figure>
         <a href="images/03-retrieval-by-company.jpg" aria-label="Open full-size image: Per-company retrieval checkpoints showing record counts and processing provenance.">
           <img src="images/03-retrieval-by-company.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Per-company retrieval checkpoints showing record counts and processing provenance.">
         </a>
-        <figcaption>Independent checkpoints retain usable source data and make partial failures easier to diagnose. Select the image to view it at full size.</figcaption>
+        <figcaption>Independent checkpoints retain usable source data and make partial failures easier to diagnose.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="ranking" aria-labelledby="ranking-title">
@@ -66,17 +72,17 @@
         <a href="images/04-ranked-report.jpg" aria-label="Open full-size image: Ranked job report with filters, fit dimensions, evidence factors, and review actions.">
           <img src="images/04-ranked-report.jpg" width="1265" height="712" loading="lazy" decoding="async" alt="Ranked job report with filters, fit dimensions, evidence factors, and review actions.">
         </a>
-        <figcaption>The ranked report keeps the reasoning behind each recommendation visible. Select the image to view it at full size.</figcaption>
+        <figcaption>The ranked report keeps the reasoning behind each recommendation visible.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" aria-labelledby="design-title">
       <h2 id="design-title">Engineering choices</h2>
       <article aria-label="Job Posting Ranker implementation highlights">
         <ul class="details">
-          <li><strong>Visible boundaries.</strong> Source retrieval, eligibility, model evaluation, and review remain independently inspectable.</li>
-          <li><strong>Incremental model work.</strong> Reuse rankings unless re-ranking is requested, avoiding repeated spending on decisions already made.</li>
-          <li><strong>Local-first state.</strong> Source data, rankings, and review actions remain inspectable files.</li>
-          <li><strong>Human decisions.</strong> The ranker supports discovery and review; it does not log into career sites or submit applications.</li>
+          <li>Retrieval, eligibility, model evaluation, and review are separate steps, and each can be inspected on its own.</li>
+          <li>Rankings are reused unless re-ranking is requested, so the model is not paid twice for the same decision.</li>
+          <li>Source data, rankings, and review actions are kept as plain local files.</li>
+          <li>The ranker helps find and review openings. It does not log into career sites or submit applications; those decisions stay with the user.</li>
         </ul>
       </article>
       <p class="project-note showcase-copy">Screenshots show a real local snapshot. Counts and job examples change as sources are refreshed and decisions are recorded.</p>

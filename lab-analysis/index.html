@@ -15,9 +15,15 @@
   <meta name="theme-color" content="#f3f2ec" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#111614" media="(prefers-color-scheme: dark)">
   <title>AI-Assisted Laboratory Image Analysis — Jianing Wang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400..600&display=swap">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jianing Wang">
+  <meta property="og:title" content="AI-Assisted Laboratory Image Analysis — Jianing Wang">
+  <meta property="og:description" content="AI-Assisted Laboratory Image Analysis by Jianing Wang: computer vision, image processing, AI-assisted interpretation, and case management for laboratory workflows.">
+  <meta property="og:url" content="https://robinbach.github.io/lab-analysis/">
+  <meta property="og:image" content="https://robinbach.github.io/lab-analysis/images/demo01.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/fonts/fonts.css">
   <link rel="stylesheet" href="/site.css">
 </head>
 <body>
@@ -28,7 +34,7 @@
       <p class="eyebrow">Project showcase / Registered software</p>
       <h1 id="lab-title">AI-Assisted Laboratory Image Analysis</h1>
       <p class="positioning">Computer vision and AI-assisted interpretation for laboratory and diagnostic imaging workflows.</p>
-      <p class="intro-copy">AI-Assisted Laboratory Image Analysis System is a medical imaging and analysis platform designed to process images and video generated in laboratory and diagnostic workflows. The system uses computer vision and image-processing techniques to identify, quantify, and extract relevant visual features from laboratory images, including spot-based assay results and other diagnostic imagery. Extracted image features and quantitative results can then be analyzed by AI models to provide preliminary classification, interpretation, and statistical summaries for further review. The platform also provides supporting application functionality, including user authentication, result archiving, data management, and integration with local files and imaging workflows.</p>
+      <p class="intro-copy">The software takes images and video from laboratory and diagnostic workflows, detects and measures the visual features in them, such as the spots in an assay, and passes those measurements to AI models for a preliminary classification, interpretation, and statistical summary. Every result goes to a person for review. Cases are archived with their source images, and the application also handles user accounts, search, and local image files.</p>
       <p class="project-note">China National Software Copyright Registry <strong>#12137438</strong></p>
       <nav class="actions" aria-label="Showcase sections"><a href="#analysis">Image analysis</a><a href="#workflow">Case workflow</a></nav>
     </section>
@@ -39,7 +45,7 @@
         <a href="images/demo01.png" aria-label="Open full-size image: laboratory image analysis workspace showing a processed assay image.">
           <img src="images/demo01.png" width="833" height="504" loading="lazy" decoding="async" alt="Laboratory image analysis interface showing a processed assay image with detected spots and image adjustment controls.">
         </a>
-        <figcaption>Processed assay image with analysis and display controls. Select the image to view it at full size.</figcaption>
+        <figcaption>Processed assay image with analysis and display controls.</figcaption>
       </figure>
     </section>
     <section class="showcase-section" id="workflow" aria-labelledby="workflow-title">
@@ -49,7 +55,7 @@
         <a href="images/demo02.png" aria-label="Open full-size image: laboratory case workspace showing processed samples and result summaries.">
           <img src="images/demo02.png" width="1248" height="412" loading="lazy" decoding="async" alt="Laboratory case management interface showing processed samples, result summaries, image previews, and a quantitative chart.">
         </a>
-        <figcaption>Archived cases keep processed images and result context available for later review. Select the image to view it at full size.</figcaption>
+        <figcaption>Archived cases keep processed images and result context available for later review.</figcaption>
       </figure>
     </section>
     <footer><a href="/#projects">← Back to projects</a></footer>
